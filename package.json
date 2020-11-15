@@ -5,11 +5,13 @@
   "main": "index.js",
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
+    "axios": "^0.21.0",
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "firebase": "^8.0.2",
     "firebaseui": "^4.4.0",
     "grecaptcha": "^1.0.3",
+    "isomorphic-fetch": "^3.0.0",
     "jquery": "^3.5.1",
     "next": "^10.0.1",
     "node-sass": "^5.0.0",
@@ -18,7 +20,9 @@
     "react-firebaseui": "^4.1.0",
     "react-router-dom": "^5.1.2",
     "react-slick": "^0.27.13",
+    "serverless-mysql": "^1.5.4",
     "slick-carousel": "^1.8.1",
+    "sql-template-strings": "^2.2.2",
     "strip-ansi": "^6.0.0"
   },
   "devDependencies": {},

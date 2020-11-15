@@ -3,18 +3,33 @@ import ReactDOM from 'react-dom'
 import { HashRouter, Route, Link }from 'react-router-dom';
 import Head from 'next/head'
 import Header from '../Components/Header';
-import { HomeBanner } from '../Components/Banner';
+import { HomeBanner, HomeBanner4 } from '../Components/Banner';
 import { FeatureProp } from '../Components/Sliders';
+import fetch from 'isomorphic-fetch';
+import propserv from '../../services/property-services';
 
 class Home extends Component{
 
+	constructor(props){
+		super(props)
+		this.state = {
+			featureProps : []
+		}
+	}
+
 	componentDidMount(){
 
-
+		propserv.getFeatureProps().then((res) => {
+			this.setState({
+				featureProps : res
+			})
+		})
 
   	}
 
 	render(){
+
+	 const { featureProps } = this.state
 
 	 var settings = {
 	    slidesToShow:3,
@@ -48,7 +63,7 @@ class Home extends Component{
 			      </Head>
 			      <div id="main-wrapper">
 			      	<Header />
-			      	<HomeBanner />
+			      	<HomeBanner4 />
 			      	<section>
 			      		<div className="row">
 							<div className="col-lg-12 col-md-12">
@@ -58,7 +73,7 @@ class Home extends Component{
 								</div>
 							</div>
 						</div>
-						<FeatureProp settings={settings} />
+						<FeatureProp settings={settings} properties={featureProps}/>
 			      	</section>
 			      </div>
 			</div>
