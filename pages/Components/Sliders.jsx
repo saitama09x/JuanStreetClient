@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import ReactDOM from 'react-dom'
+import Link from 'next/link'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,7 +13,7 @@ export const FeatureProp = (props) => {
 		 <Slider {...settings}>
 		 	{(properties.length) && properties.map((item, index) => {
 		 		return (
-		 		<div className="single-items">
+		 		<div className="single-items" key={"slider-item-" + index}>
 					<div className="property-listing property-2 modern">
 				
 						<div className="listing-img-wrapper">
@@ -21,7 +22,7 @@ export const FeatureProp = (props) => {
 							</div>
 							<div className="list-img-slide">
 								<div className="click">
-									<div><a href="single-property-1.html"><img src={item.media_filename} className="img-fluid mx-auto" alt="" /></a></div>
+									<div><Link href={"/single-listing/" + item.propid}><a><img src={item.media_filename} className="img-fluid mx-auto" alt="" /></a></Link></div>
 								</div>
 							</div>
 							<div className="listing-price-with-compare">
@@ -69,5 +70,178 @@ export const FeatureProp = (props) => {
 		 </Slider>
 	)
 
+
+}
+
+export const SliderBanner = (props) => {
+	const { listings } = props
+	const { property, address, details } = listings;
+
+	const [sliderNav, setSliderNav] = useState(null);
+	const [sliderBig, setSliderBig] = useState(null);
+
+	var settings = {
+	      slidesToShow: 1,
+		  slidesToScroll: 1,
+		  arrows: false,
+		  fade: true,
+		  adaptiveHeight: true,
+		  asNavFor: sliderNav
+	};
+
+	var NavSettings = {
+	      slidesToShow : 3,
+          swipeToSlide : true,
+	      asNavFor: sliderBig,
+		  dots: false,
+		  centerMode: false,
+		  focusOnSelect: true
+	};
+
+	return (
+		<div>
+			<div className="single-advance-property gray">
+				<div className="container-fluid p-0">
+					<div className="row align-items-center">
+					
+						<div className="col-lg-7 col-md-7 col-sm-12">
+							<div className="slider-for">
+							 	<Slider {...settings} ref={ slider => setSliderBig(slider) }>
+								{ listings?.media?.length && listings.media.map((item, index) => {
+
+									return (
+										<a  key={'slider-' + index} className="item-slick"><img src={item.media_filename} alt="Alt" /></a>
+									)
+
+								})}
+								</Slider>
+
+							</div>
+							
+						</div>
+						
+						<div className="col-lg-5 col-md-5 col-sm-12">
+							<div className="single-advance-caption">
+							
+								<div className="property-name-info">
+									<h4 className="property-name">{property.property_name}</h4>
+									<p className="property-desc">2 Bedrooms, Kitchen,and bathrooms included with balcony</p>
+								</div>
+								
+								<div className="property-price-info">
+									<h4 className="property-price">$23,5487.00</h4>
+									<p className="property-sqa">70,00<sub>m2</sub> (5485$/m2)</p>
+								</div>
+								
+								<div className="property-statement">
+									<ul>
+										<li>
+											<i className="lni-apartment"></i>
+											<div className="ps-trep">
+												<span>Type</span>
+												<h5 className="ps-type">{details.property_type}</h5>
+											</div>
+										</li>
+										<li>
+											<i className="lni-restaurant"></i>
+											<div className="ps-trep">
+												<span>Build On</span>
+												<h5 className="ps-type">2007</h5>
+											</div>
+										</li>
+										<li>
+											<i className="lni-helmet"></i>
+											<div className="ps-trep">
+												<span>Maintenence Fee</span>
+												<h5 className="ps-type">$710/PA</h5>
+											</div>
+										</li>
+										<li>
+											<i className="lni-leaf"></i>
+											<div className="ps-trep">
+												<span>Let</span>
+												<h5 className="ps-type">Own</h5>
+											</div>
+										</li>
+									</ul>
+								</div>
+								
+							</div>
+						</div>
+					
+					</div>
+					
+					<div className="row">
+						<div className="col-lg-12 col-md-12">
+								<Slider {...NavSettings} ref={ slider => setSliderNav(slider) }>
+									{ listings?.media?.length && listings.media.map((item, index) => {
+
+										return (
+											<a  key={'sliderNav-' + index} className="item-slick"><img src={item.media_filename} alt="Alt" /></a>
+										)
+
+									})}
+								</Slider>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<section className="spd-wrap">
+				<div className="container">
+					<div className="row">
+						
+						<div className="col-lg-12 col-md-12">
+						
+							<div className="slide-property-detail">
+								
+								<div className="slide-property-first">
+									<div className="pr-price-into">
+										<h2>$1700 <i>/ monthly</i> <span className="prt-type rent">For Rental</span></h2>
+										<span><i className="lni-map-marker"></i> 778 Country St. Panama City, FL</span>
+									</div>
+								</div>
+								
+								<div className="slide-property-sec">
+									<div className="pr-all-info">
+										
+										<div className="pr-single-info">
+											<div className="share-opt-wrap">
+												<button type="button" className="btn-share" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-original-title="Share this">
+													<i className="lni-share"></i>
+												</button>
+												<div className="dropdown-menu animated flipInX">
+													<a href="#" className="cl-facebook"><i className="lni-facebook"></i></a>
+													<a href="#" className="cl-twitter"><i className="lni-twitter"></i></a>
+													<a href="#" className="cl-gplus"><i className="lni-google-plus"></i></a>
+													<a href="#" className="cl-instagram"><i className="lni-instagram"></i></a>
+												</div>
+											</div>
+
+										</div>
+										
+										<div className="pr-single-info">
+											<a href="JavaScript:Void(0);" data-toggle="tooltip" data-original-title="Get Print"><i className="ti-printer"></i></a>
+										</div>
+										
+										<div className="pr-single-info">
+											<a href="JavaScript:Void(0);" className="compare-button" data-toggle="tooltip" data-original-title="Compare"><i className="ti-control-shuffle"></i></a>
+										</div>
+										
+										<div className="pr-single-info">
+											<a href="JavaScript:Void(0);" className="like-bitt add-to-favorite" data-toggle="tooltip" data-original-title="Add To Favorites"><i className="lni-heart-filled"></i></a>
+										</div>
+										
+									</div>
+								</div>
+								
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	)
 
 }

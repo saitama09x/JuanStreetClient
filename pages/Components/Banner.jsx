@@ -1,5 +1,8 @@
 import React, { Component, useState } from 'react';
 import ReactDOM from 'react-dom'
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const HomeBanner = () => {
 
@@ -105,9 +108,9 @@ export const HomeBanner4 = () => {
 					<p className="text-center mb-5">From as low as $10 per day with limited time offer</p>
 
 					<div className="property-search-type">
-						<label className={ (isActive == "any") ? 'active' : ''} onLoad={(e)=>initArrow(e)} ><input name="tab" type="radio" checked={(isActive == "any") ? true : false} onClick={(e) => chooseCat(e, 'any')} />Any Status</label>
-						<label className={ (isActive == "sale") ? 'active' : '' }><input name="tab" type="radio" onClick={(e) => chooseCat(e, 'sale')} checked={(isActive == "sale") ? true : false}/>For Sale</label>
-						<label className={ (isActive == "rent") ? 'active' : '' }><input name="tab" type="radio" onClick={(e) => chooseCat(e, 'rent')} checked={(isActive == "rent") ? true : false} />For Rent</label>
+						<label className={ (isActive == "any") ? 'active' : ''} onLoad={(e)=>initArrow(e)} ><input name="tab" type="radio" onClick={(e) => chooseCat(e, 'any')} />Any Status</label>
+						<label className={ (isActive == "sale") ? 'active' : '' }><input name="tab" type="radio" onClick={(e) => chooseCat(e, 'sale')} />For Sale</label>
+						<label className={ (isActive == "rent") ? 'active' : '' }><input name="tab" type="radio" onClick={(e) => chooseCat(e, 'rent')}  />For Rent</label>
 						<div className="property-search-type-arrow" style={{ left : pos +'px', 'transition': 'left 0.4s cubic-bezier(.95,-.41,.19,1.44)' }}></div>
 					</div>
 					<div className="full-search-2 eclip-search italian-search hero-search-radius">
@@ -235,51 +238,51 @@ export const HomeBanner4 = () => {
 										<ul className="no-ul-list third-row">
 											<li>
 												<input id="a-1" className="checkbox-custom" name="a-1" type="checkbox" />
-												<label for="a-1" className="checkbox-custom-label">Air Condition</label>
+												<label htmlFor="a-1" className="checkbox-custom-label">Air Condition</label>
 											</li>
 											<li>
 												<input id="a-2" className="checkbox-custom" name="a-2" type="checkbox" />
-												<label for="a-2" className="checkbox-custom-label">Bedding</label>
+												<label htmlFor="a-2" className="checkbox-custom-label">Bedding</label>
 											</li>
 											<li>
 												<input id="a-3" className="checkbox-custom" name="a-3" type="checkbox"/>
-												<label for="a-3" className="checkbox-custom-label">Heating</label>
+												<label htmlFor="a-3" className="checkbox-custom-label">Heating</label>
 											</li>
 											<li>
 												<input id="a-4" className="checkbox-custom" name="a-4" type="checkbox"/>
-												<label for="a-4" className="checkbox-custom-label">Internet</label>
+												<label htmlFor="a-4" className="checkbox-custom-label">Internet</label>
 											</li>
 											<li>
 												<input id="a-5" className="checkbox-custom" name="a-5" type="checkbox"/>
-												<label for="a-5" className="checkbox-custom-label">Microwave</label>
+												<label htmlFor="a-5" className="checkbox-custom-label">Microwave</label>
 											</li>
 											<li>
 												<input id="a-6" className="checkbox-custom" name="a-6" type="checkbox"/>
-												<label for="a-6" className="checkbox-custom-label">Smoking Allow</label>
+												<label htmlFor="a-6" className="checkbox-custom-label">Smoking Allow</label>
 											</li>
 											<li>
 												<input id="a-7" className="checkbox-custom" name="a-7" type="checkbox"/>
-												<label for="a-7" className="checkbox-custom-label">Terrace</label>
+												<label htmlFor="a-7" className="checkbox-custom-label">Terrace</label>
 											</li>
 											<li>
 												<input id="a-8" className="checkbox-custom" name="a-8" type="checkbox"/>
-												<label for="a-8" className="checkbox-custom-label">Balcony</label>
+												<label htmlFor="a-8" className="checkbox-custom-label">Balcony</label>
 											</li>
 											<li>
 												<input id="a-9" className="checkbox-custom" name="a-9" type="checkbox"/>
-												<label for="a-9" className="checkbox-custom-label">Icon</label>
+												<label htmlFor="a-9" className="checkbox-custom-label">Icon</label>
 											</li>
 											<li>
 												<input id="a-10" className="checkbox-custom" name="a-10" type="checkbox"/>
-												<label for="a-10" className="checkbox-custom-label">Wi-Fi</label>
+												<label htmlFor="a-10" className="checkbox-custom-label">Wi-Fi</label>
 											</li>
 											<li>
 												<input id="a-11" className="checkbox-custom" name="a-11" type="checkbox"/>
-												<label for="a-11" className="checkbox-custom-label">Beach</label>
+												<label htmlFor="a-11" className="checkbox-custom-label">Beach</label>
 											</li>
 											<li>
 												<input id="a-12" className="checkbox-custom" name="a-12" type="checkbox" />
-												<label for="a-12" className="checkbox-custom-label">Parking</label>
+												<label htmlFor="a-12" className="checkbox-custom-label">Parking</label>
 											</li>
 										</ul>
 									</div>
@@ -295,3 +298,4 @@ export const HomeBanner4 = () => {
 	)
 
 }
+

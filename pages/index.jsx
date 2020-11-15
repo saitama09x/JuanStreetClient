@@ -1,5 +1,6 @@
 import React from 'react'
-import Home from './Client/Home'
+import Home from './home'
+import propserv from '../services/property-services';
 
 import {
     HashRouter,
@@ -19,14 +20,22 @@ const config = {
   measurementId: process.env.REACT_APP_MEASURE
 };
 
+export async function getStaticProps(){
+    let res = await propserv.getFeatureProps();
+    return { props : { featureProps : res }}
+}
+
+
 class MainPage extends React.Component  {
+
 
   constructor(props) {
     super(props);
   }
 
   render(){
-      return <Home />
+      const { featureProps } = this.props
+      return <Home featureProps={featureProps} />
   }
   
 }
