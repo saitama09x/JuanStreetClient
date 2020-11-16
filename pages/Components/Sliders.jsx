@@ -125,12 +125,12 @@ export const SliderBanner = (props) => {
 							
 								<div className="property-name-info">
 									<h4 className="property-name">{property.property_name}</h4>
-									<p className="property-desc">2 Bedrooms, Kitchen,and bathrooms included with balcony</p>
+									<p className="property-desc">{property.description}</p>
 								</div>
 								
 								<div className="property-price-info">
-									<h4 className="property-price">$23,5487.00</h4>
-									<p className="property-sqa">70,00<sub>m2</sub> (5485$/m2)</p>
+									<h4 className="property-price">Php {details.vendor_requested_price}</h4>
+									<p className="property-sqa">{details.property_size}<sub>SqM</sub></p>
 								</div>
 								
 								<div className="property-statement">
@@ -197,8 +197,8 @@ export const SliderBanner = (props) => {
 								
 								<div className="slide-property-first">
 									<div className="pr-price-into">
-										<h2>$1700 <i>/ monthly</i> <span className="prt-type rent">For Rental</span></h2>
-										<span><i className="lni-map-marker"></i> 778 Country St. Panama City, FL</span>
+										<h2>Php {details.vendor_requested_price} <i>/ monthly</i> <span className="prt-type rent">{property.listing_type}</span></h2>
+										<span><i className="lni-map-marker"></i> {address.zip_postcode + ", " + address.line_3_area_locality + ', ' + address.town_city + ', ' + address.country}</span>
 									</div>
 								</div>
 								

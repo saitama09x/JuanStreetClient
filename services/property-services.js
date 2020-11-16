@@ -16,6 +16,33 @@ function propertiesServ(){
 		return false
 	}
 
+	this.getSingleProperty = async (id) => {
+		let res = await serv.get('get-property/' + id);
+		if(res){
+			return res.data
+		}
+		return false
+	}
+
+	this.getPropertyTypeRef = async () => {
+
+		let res = await serv.get('property-type');
+		if(res){
+			return res.data
+		}
+		return false
+	}
+
+	this.getProvince = async () => {
+
+		let res = await serv.get("location/provices");
+		if(res){
+			return res.data
+		}
+		return false
+		
+	}
+
 }
 
 export default new propertiesServ

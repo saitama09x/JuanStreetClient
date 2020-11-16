@@ -17,9 +17,13 @@ class Home extends Component{
 		
   	}
 
+  	onSelectChange(e, val, label){
+  		console.log(val)
+  	}
+
 	render(){
 
-	 const { featureProps } = this.props
+	 const { featureProps, proptypes, provinces } = this.props
 
 	 var settings = {
 	    slidesToShow:3,
@@ -54,7 +58,7 @@ class Home extends Component{
 
 			      <div id="main-wrapper">
 			      	<Header />
-			      	<HomeBanner4 />
+			      	<HomeBanner4 proptypes={proptypes} provinces={provinces} onChange={(e, val, label) => this.onSelectChange(e, val, label)}/>
 			      	<section>
 			      		<div className="row">
 							<div className="col-lg-12 col-md-12">

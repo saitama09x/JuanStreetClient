@@ -1,7 +1,8 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
-import { HashRouter, Route, Link }from 'react-router-dom';
+import { HashRouter, Route }from 'react-router-dom';
+import Link from 'next/link'
 
 class Header extends Component{
 
@@ -21,7 +22,7 @@ render(){
 						<div className="nav-menus-wrapper">
 							<ul className="nav-menu">
 							
-								<li className="active"><a href="#">Home<span className="submenu-indicator"></span></a>
+								<li className="active"><Link href="/"><a>Home<span className="submenu-indicator"></span></a></Link>
 									<ul className="nav-dropdown nav-submenu">
 										<li><a className="active" href="index.html">Home Layout 1</a></li>
 										<li><a href="home-2.html">Home Layout 2</a></li>

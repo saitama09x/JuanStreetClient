@@ -2,6 +2,7 @@ import React from 'react'
 import App from 'next/app'
 import "./assets/css/styles.css";
 import "./assets/css/colors.css";
+import './scss/custom/select2.css'
 import propserv from '../services/property-services';
 
 class MyApp extends App {
