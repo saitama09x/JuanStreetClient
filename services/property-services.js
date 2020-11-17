@@ -43,6 +43,14 @@ function propertiesServ(){
 		
 	}
 
+	this.searchListings = async (obj) => {
+		let res = await serv.post("search/listings", { province : obj.province, proptype : obj.proptype });
+		if(res){
+			return res.data
+		}
+		return false
+	}
+
 }
 
 export default new propertiesServ

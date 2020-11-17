@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Select2 from './Select2';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from 'next/router'
 
 export const HomeBanner = () => {
 
@@ -91,12 +92,13 @@ const options = [
 ];
 
 export const HomeBanner4 = (props) => {
-	const { proptypes, provinces, onChange } = props
+	const { proptypes, provinces, onChange, do_search } = props
 
 	const [isActive, setActive] = useState("any");
 	const [pos, setPos] = useState(0)
 	const [selectedOption, setSelectedOption] = useState(null);
-	const [selectOptions, setSelectOptions] = useState(null);
+	const [selectedType, setSelectedType] = useState(null);
+	const router = useRouter()
 
 	const initArrow = (e) => {
 		var elem = e.target;
@@ -109,6 +111,11 @@ export const HomeBanner4 = (props) => {
 
 		setActive(active)
 		setPos(parent.offsetLeft + (parent.offsetWidth/2) - 10)
+	}
+
+	const _do_search = () => {
+		do_search({proptype : selectedType, propadd : selectedOption})
+		router.push("/search/listings")
 	}
 
 	return (
@@ -126,7 +133,7 @@ export const HomeBanner4 = (props) => {
 					</div>
 					<div className="full-search-2 eclip-search italian-search hero-search-radius">
 						<div className="hero-search-content">
-							<form action="/search/listings">
+
 							<div className="row">
 							
 								<div className="col-lg-3 col-md-3 col-sm-12 small-padd">
@@ -141,7 +148,7 @@ export const HomeBanner4 = (props) => {
 								<div className="col-lg-3 col-md-3 col-sm-12 small-padd">
 									<div className="form-group">
 										<div className="input-with-icon">
-											<select id="ptypes" name="type" className="form-control">
+											<select id="ptypes" name="type" className="form-control" onChange={(e) => setSelectedType(e.target.value)}>
 												<option value="">&nbsp;</option>
 												<option value="1">Any Type</option>
 												{proptypes.length && proptypes.map((item, index) => {
@@ -161,7 +168,7 @@ export const HomeBanner4 = (props) => {
 										<div className="input-with-icon b-l b-r">
 											<Select2 
 												initOptions={provinces} 
-												onChange={(e, val, label) => onChange(e, val, label)}
+												onChange={(e, val, label) => setSelectedOption(val)}
 												defaultText={""}
 												isDisabled={false}
 												placeholder={""}
@@ -179,11 +186,11 @@ export const HomeBanner4 = (props) => {
 								
 								<div className="col-lg-2 col-md-2 col-sm-12 small-padd">
 									<div className="form-group">
-										<button className="btn search-btn">Search</button>
+										<button className="btn search-btn" onClick={(e) => _do_search() }>Search</button>
 									</div>
 								</div>
 							</div>
-							</form>
+
 							<div className="collapse" id="advance-search" aria-expanded="false" role="banner">
 							
 								<div className="row">

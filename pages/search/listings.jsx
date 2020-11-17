@@ -4,12 +4,28 @@ import Header from '../Components/Header';
 import Head from 'next/head'
 import { SearchBanner } from '../Components/Banner';
 import ResultListing from '../Components/ResultListing';
+import {connect} from 'react-redux';
+import { do_search_listings } from '../../redux/search-actions'
+import propserv from '../../services/property-services';
+
+const mapStateToProps = state => ({
+    search: state.search
+});
+
+const mapDispatchToProps = {
+    do_search: do_search_listings,
+};
+
 
 class Listings extends Component{
 
 	constructor(props){
   		super(props)
   	}
+
+    componentDidMount(){
+
+    }
 
   	render() {
 
@@ -34,4 +50,4 @@ class Listings extends Component{
 
 }
 
-export default Listings
+export default connect(mapStateToProps, mapDispatchToProps)(Listings);

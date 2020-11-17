@@ -5,11 +5,24 @@ import Head from 'next/head'
 import Header from '../Components/Header';
 import { HomeBanner, HomeBanner4 } from '../Components/Banner';
 import { FeatureProp } from '../Components/Sliders';
+import {connect} from 'react-redux';
+import { do_search_listings } from '../../redux/search-actions'
+
+
+const mapStateToProps = state => ({
+    search: state.search
+});
+
+const mapDispatchToProps = {
+    do_search: do_search_listings,
+};
+
 
 class Home extends Component{
 
   	constructor(props){
   		super(props)
+
   	}
 
 	componentDidMount(){
@@ -17,13 +30,10 @@ class Home extends Component{
 		
   	}
 
-  	onSelectChange(e, val, label){
-  		console.log(val)
-  	}
-
 	render(){
 
-	 const { featureProps, proptypes, provinces } = this.props
+	 const { featureProps, proptypes, provinces, do_search } = this.props
+
 
 	 var settings = {
 	    slidesToShow:3,
@@ -58,7 +68,11 @@ class Home extends Component{
 
 			      <div id="main-wrapper">
 			      	<Header />
-			      	<HomeBanner4 proptypes={proptypes} provinces={provinces} onChange={(e, val, label) => this.onSelectChange(e, val, label)}/>
+			      	<HomeBanner4 
+			      		proptypes={proptypes} 
+			      		provinces={provinces} 
+			      		do_search={do_search}
+			      		/>
 			      	<section>
 			      		<div className="row">
 							<div className="col-lg-12 col-md-12">
@@ -80,4 +94,4 @@ class Home extends Component{
 
 
 
-export default Home
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

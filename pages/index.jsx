@@ -22,7 +22,16 @@ const config = {
 
 export async function getStaticProps(){
     let res = await propserv.getFeatureProps();
-    return { props : { featureProps : res }}
+    let proptypes = await propserv.getPropertyTypeRef();
+    let provinces = await propserv.getProvince()
+    
+    var provarr = [];
+    if(provinces){
+      for(var i in provinces){
+          provarr.push({label : provinces[i].provDesc, value : provinces[i].provDesc})
+      }
+    }
+    return { props : { featureProps : res, proptypes : proptypes, provinces : provarr }}
 }
 
 
@@ -34,8 +43,9 @@ class MainPage extends React.Component  {
   }
 
   render(){
-      const { featureProps } = this.props
-      return <Home featureProps={featureProps} />
+      const { featureProps, proptypes, provinces } = this.props
+
+      return <Home featureProps={featureProps} proptypes={proptypes} provinces={provinces}/>
   }
   
 }
