@@ -316,6 +316,11 @@ export const HomeBanner4 = (props) => {
 
 
 export const SearchBanner = (props) => {
+	const { proptypes, provinces, search_listing } = props
+
+	const [selectedOption, setSelectedOption] = useState(null);
+	const [selectedType, setSelectedType] = useState(null);
+	const [collapse, setCollapse] = useState(false);
 
 	return (
 		<div className="search-header-banner">
@@ -340,16 +345,13 @@ export const SearchBanner = (props) => {
 								<div className="col-lg-4 col-md-4 col-sm-12">
 									<div className="form-group">
 										<div className="input-with-icon">
-											<select id="cities" className="form-control">
-												<option value="">&nbsp;</option>
-												<option value="1">Los Angeles, CA</option>
-												<option value="2">New York City, NY</option>
-												<option value="3">Chicago, IL</option>
-												<option value="4">Houston, TX</option>
-												<option value="5">Philadelphia, PA</option>
-												<option value="6">San Antonio, TX</option>
-												<option value="7">San Jose, CA</option>
-											</select>
+											<Select2 
+												initOptions={provinces} 
+												onChange={(e, val, label) => setSelectedOption(val)}
+												defaultText={""}
+												isDisabled={false}
+												placeholder={""}
+											/>
 											<i className="ti-briefcase"></i>
 										</div>
 									</div>
@@ -375,7 +377,7 @@ export const SearchBanner = (props) => {
 								
 							</div>
 							
-							<div className="collapse" id="advance-search" aria-expanded="false" role="banner">
+							<div className={ (collapse==true) ? "collapse show" : "collapse" }  id="advance-search" aria-expanded="false" role="banner">
 							
 
 								<div className="row">
@@ -383,11 +385,14 @@ export const SearchBanner = (props) => {
 									<div className="col-lg-4 col-md-4 col-sm-12">
 										<div className="form-group">
 											<div className="input-with-icon">
-												<select id="ptypes" className="form-control">
+												<select id="ptypes" className="form-control" onChange={(e) => setSelectedType(e.target.value)}>
 													<option value="">&nbsp;</option>
-													<option value="1">Any Type</option>
-													<option value="2">For Rental</option>
-													<option value="3">For Sale</option>
+													<option value="">Any Type</option>
+													{proptypes.length && proptypes.map((item, index) => {
+														return (
+															<option key={"type-"+index} value={item.property_type_code}>{item.property_type_name}</option>
+														)
+													})}
 												</select>
 												<i className="ti-briefcase"></i>
 											</div>
@@ -493,7 +498,7 @@ export const SearchBanner = (props) => {
 							
 								<div className="col-lg-4 col-md-4 col-sm-12">
 									<div className="form-group" id="module">
-										<a role="button" className="collapsed" data-toggle="collapse" href="#advance-search" aria-expanded="false" aria-controls="advance-search"></a>
+										<a role="button" className="collapsed"  onClick={(e) => setCollapse(!collapse)} ></a>
 									</div>
 								</div>
 								
@@ -507,7 +512,7 @@ export const SearchBanner = (props) => {
 								
 								<div className="col-lg-4 col-md-4 col-sm-12">
 									<div className="form-group">
-										<a href="#" className="btn search-btn-outline">Search Result</a>
+										<button className="btn search-btn-outline" onClick={(e) => search_listing(selectedType, selectedOption)}>Search Result</button>
 									</div>
 								</div>
 								

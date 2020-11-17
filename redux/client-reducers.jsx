@@ -1,8 +1,9 @@
-import { search_action } from "./search-actions"
+import { search_action, display_listings } from "./search-actions"
 
 const initialSearch = {
 	proptype : "",
-	propadd : ""	
+	propadd : "",
+	listings : []
 }
 
 function search_reducers( state = initialSearch, action){
@@ -11,6 +12,8 @@ function search_reducers( state = initialSearch, action){
 
 		case search_action : 
 			return { ...state, proptype : action.proptype, propadd : action.propadd }
+		case display_listings : 
+			return { ...state, listings : action.listings}
 		default:
 			return state
 

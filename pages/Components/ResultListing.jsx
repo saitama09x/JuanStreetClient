@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import Link from 'next/link'
 import {connect} from 'react-redux';
-import { do_search_listings } from '../../redux/search-actions'
+import { do_search_listings, do_display_listings } from '../../redux/search-actions'
 import propserv from '../../services/property-services';
 
 const mapStateToProps = state => ({
@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     do_search: do_search_listings,
+    display_listings : do_display_listings
 };
 
 
@@ -18,25 +19,21 @@ class ResultListing extends Component{
 
 	constructor(props){
   	  super(props)
-      this.state = {
-          listings : []
-      }
   	}
 
   	componentDidMount(){
-      const { search } = this.props
+      const { search, display_listings } = this.props
 
       propserv.searchListings({ province : search.propadd, proptype : search.proptype }).then((res) => {
-          this.setState({
-          	listings : res
-          })
+      		display_listings(res)
       })
 
     }
 
 
 	render(){
-		const { listings } = this.state
+		const { search } = this.props
+
 		return (
 			<section>
 			
@@ -48,7 +45,7 @@ class ResultListing extends Component{
 							
 								<div className="col-lg-12 col-md-12">
 									<div className="filter-fl">
-										<h4>Total Property Find is: <span className="theme-cl">{listings?.length}</span></h4>
+										<h4>Total Property Find is: <span className="theme-cl">{search.listings?.length}</span></h4>
 										<div className="btn-group custom-drop">
 											<button type="button" className="btn btn-order-by-filt" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 												Short By<i className="ti-angle-down"></i>
@@ -64,7 +61,7 @@ class ResultListing extends Component{
 								
 							
 								<div className="col-lg-12 col-md-12">
-									{ listings?.length && listings.map((item, index) => {
+									{ search.listings?.length ? search.listings.map((item, index) => {
 										return (
 										<div className="property-listing property-1" key={"property-"+index}>
 											
@@ -119,7 +116,7 @@ class ResultListing extends Component{
 										</div>
 										)
 
-									})}
+									}) : <strong>No Result Available</strong> }
 
 									
 								</div>
