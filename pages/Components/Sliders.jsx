@@ -245,3 +245,89 @@ export const SliderBanner = (props) => {
 	)
 
 }
+
+
+export const TestimonialSlider = (props) => {
+	const { testimonial_settings } = props
+
+	return (
+	<div className="container">
+		<div className="row align-items-center">
+			
+			<div className="col-lg-6 col-md-7">
+				<h2 className="text-light">What People Says?</h2>
+				
+				<div className="smart-textimonials smart-light" id="smart-textimonials">
+					 <Slider {...testimonial_settings}>
+
+					<div className="item">
+						<div className="smart-tes-content">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						</div>
+						
+						<div className="smart-tes-author">
+							<div className="st-author-box">
+								<div className="st-author-thumb">
+									<img src="https://via.placeholder.com/400x400" className="img-fluid" alt="" />
+								</div>
+								<div className="st-author-info">
+									<h4 className="st-author-title">Adam Williams</h4>
+									<span className="st-author-subtitle">CEO Of Microwoft</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+
+					<div className="item">
+						<div className="smart-tes-content">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						</div>
+						
+						<div className="smart-tes-author">
+							<div className="st-author-box">
+								<div className="st-author-thumb">
+									<img src="https://via.placeholder.com/400x400" className="img-fluid" alt="" />
+								</div>
+								<div className="st-author-info">
+									<h4 className="st-author-title">Rita Deluxea</h4>
+									<span className="st-author-subtitle">CEO Of Microwoft</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+
+					<div className="item">
+						<div className="smart-tes-content">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						</div>
+						
+						<div className="smart-tes-author">
+							<div className="st-author-box">
+								<div className="st-author-thumb">
+									<img src="https://via.placeholder.com/400x400" className="img-fluid" alt="" />
+								</div>
+								<div className="st-author-info">
+									<h4 className="st-author-title">Adam Gilwarm</h4>
+									<span className="st-author-subtitle">CEO Of Applioa</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					</Slider>
+				</div>
+			</div>
+			
+			<div className="col-lg-6 col-md-5">
+				<img src="assets/img/avatar-large-1.png" className="img-fluid" alt="" />
+			</div>
+			
+		</div>
+	</div>
+
+
+	)
+
+
+}

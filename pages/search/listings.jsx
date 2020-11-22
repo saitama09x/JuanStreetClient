@@ -4,6 +4,7 @@ import Header from '../Components/Header';
 import Head from 'next/head'
 import { SearchBanner } from '../Components/Banner';
 import ResultListing from '../Components/ResultListing';
+import { Footer } from '../Components/Footer';
 import {connect} from 'react-redux';
 import { do_search_listings, do_display_listings } from '../../redux/search-actions'
 import propserv from '../../services/property-services';
@@ -24,7 +25,8 @@ class Listings extends Component{
   		super(props)
       this.state = {
           provinces : [],
-          proptypes : []
+          proptypes : [],
+          ref_feature : []
       }
       this.do_search_listing = this.do_search_listing.bind(this)
   	}
@@ -55,6 +57,16 @@ class Listings extends Component{
             })
           }
       })
+
+      propserv.get_referrence_feature().then((res) => {
+
+        if(res){
+            this.setState({
+                ref_feature : res
+            })
+          }
+
+      })
         
     }
 
@@ -69,7 +81,7 @@ class Listings extends Component{
 
   	render() {
       
-      const { provinces, proptypes} = this.state
+      const { provinces, proptypes, ref_feature} = this.state
       const { search, do_search, display_listings } = this.props
   		return (
   			<div>
@@ -85,8 +97,10 @@ class Listings extends Component{
               proptypes={proptypes} 
               display_listings={display_listings}
               search_listing={(proptype, propadd) => this.do_search_listing(proptype, propadd)}
+              ref_feature={ref_feature}
               />
 		      	<ResultListing />
+            <Footer />
 		      </div>
   			</div>
 

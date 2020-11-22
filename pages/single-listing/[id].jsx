@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import Head from 'next/head'
 import Header from '../Components/Header';
+import { Footer } from '../Components/Footer';
 import propserv from '../../services/property-services';
 import { SliderBanner } from '../Components/Sliders';
 import { DetailSingle } from '../Components/Details';
@@ -36,6 +37,7 @@ class SingleListing extends Component{
 					listings={listings} 
 				/>
 				<DetailSingle listings={listings} features={features}/>
+				<Footer />
 			</div>
 		)
 	}

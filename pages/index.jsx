@@ -24,14 +24,16 @@ export async function getStaticProps(){
     let res = await propserv.getFeatureProps();
     let proptypes = await propserv.getPropertyTypeRef();
     let provinces = await propserv.getProvince()
-    
+    let provinces_listing = await propserv.province_listing_count();
+
     var provarr = [];
     if(provinces){
       for(var i in provinces){
           provarr.push({label : provinces[i].provDesc, value : provinces[i].provDesc})
       }
     }
-    return { props : { featureProps : res, proptypes : proptypes, provinces : provarr }}
+    return { props : { featureProps : res, proptypes : proptypes, 
+      provinces : provarr, provinces_listing : provinces_listing }}
 }
 
 
@@ -43,9 +45,8 @@ class MainPage extends React.Component  {
   }
 
   render(){
-      const { featureProps, proptypes, provinces } = this.props
 
-      return <Home featureProps={featureProps} proptypes={proptypes} provinces={provinces}/>
+      return <Home {...this.props}/>
   }
   
 }

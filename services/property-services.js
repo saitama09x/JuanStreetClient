@@ -51,6 +51,23 @@ function propertiesServ(){
 		return false
 	}
 
+	this.province_listing_count = async () => {
+		let res = await serv.get("provices/properties");
+		if(res){
+			return res.data
+		}
+		return false
+	}
+
+	this.get_referrence_feature = async () => {
+
+		let res = await serv.get("references/features");
+		if(res){
+			return res.data
+		}
+		return false
+	}
+
 }
 
 export default new propertiesServ

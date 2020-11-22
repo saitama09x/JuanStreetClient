@@ -316,7 +316,7 @@ export const HomeBanner4 = (props) => {
 
 
 export const SearchBanner = (props) => {
-	const { proptypes, provinces, search_listing } = props
+	const { proptypes, provinces, search_listing, ref_feature } = props
 
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [selectedType, setSelectedType] = useState(null);
@@ -438,54 +438,15 @@ export const SearchBanner = (props) => {
 									<div className="col-lg-12 col-md-12 col-sm-12">
 										<h4>Amenities & Features</h4>
 										<ul className="no-ul-list third-row">
-											<li>
-												<input id="a-1" className="checkbox-custom" name="a-1" type="checkbox"/>
-												<label for="a-1" className="checkbox-custom-label">Air Condition</label>
-											</li>
-											<li>
-												<input id="a-2" className="checkbox-custom" name="a-2" type="checkbox"/>
-												<label for="a-2" className="checkbox-custom-label">Bedding</label>
-											</li>
-											<li>
-												<input id="a-3" className="checkbox-custom" name="a-3" type="checkbox"/>
-												<label for="a-3" className="checkbox-custom-label">Heating</label>
-											</li>
-											<li>
-												<input id="a-4" className="checkbox-custom" name="a-4" type="checkbox"/>
-												<label for="a-4" className="checkbox-custom-label">Internet</label>
-											</li>
-											<li>
-												<input id="a-5" className="checkbox-custom" name="a-5" type="checkbox"/>
-												<label for="a-5" className="checkbox-custom-label">Microwave</label>
-											</li>
-											<li>
-												<input id="a-6" className="checkbox-custom" name="a-6" type="checkbox"/>
-												<label for="a-6" className="checkbox-custom-label">Smoking Allow</label>
-											</li>
-											<li>
-												<input id="a-7" className="checkbox-custom" name="a-7" type="checkbox"/>
-												<label for="a-7" className="checkbox-custom-label">Terrace</label>
-											</li>
-											<li>
-												<input id="a-8" className="checkbox-custom" name="a-8" type="checkbox"/>
-												<label for="a-8" className="checkbox-custom-label">Balcony</label>
-											</li>
-											<li>
-												<input id="a-9" className="checkbox-custom" name="a-9" type="checkbox"/>
-												<label for="a-9" className="checkbox-custom-label">Icon</label>
-											</li>
-											<li>
-												<input id="a-10" className="checkbox-custom" name="a-10" type="checkbox"/>
-												<label for="a-10" className="checkbox-custom-label">Wi-Fi</label>
-											</li>
-											<li>
-												<input id="a-11" className="checkbox-custom" name="a-11" type="checkbox"/>
-												<label for="a-11" className="checkbox-custom-label">Beach</label>
-											</li>
-											<li>
-												<input id="a-12" className="checkbox-custom" name="a-12" type="checkbox"/>
-												<label for="a-12" className="checkbox-custom-label">Parking</label>
-											</li>
+											{ref_feature?.length && ref_feature?.map((item, index) => {
+												return (
+													<li key={"list-"+index}>
+														<input id="a-1" className="checkbox-custom" name="a-1" type="checkbox"/>
+														<label htmlFor="a-1" className="checkbox-custom-label">{item.feature_name}</label>
+													</li>
+
+												)
+											})}
 										</ul>
 									</div>
 									
