@@ -36,80 +36,9 @@ render(){
 									</ul>
 								</li>
 								
-								<li><a>Listings<span className="submenu-indicator"></span></a>
-									<ul className="nav-dropdown nav-submenu">
-										<li><a >List Layout<span className="submenu-indicator"></span></a>
-											<ul className="nav-dropdown nav-submenu">
-												<li><a href="list-layout-with-sidebar.html">With Sadebar</a></li>                                    
-												<li><a href="list-layout-with-map.html">With Map</a></li>                                    
-												<li><a href="list-layout-full.html">Full Width</a></li>
-											</ul>
-										</li>
-										<li><a >Grid Layout<span className="submenu-indicator"></span></a>
-											<ul className="nav-dropdown nav-submenu">
-												<li><a href="grid-layout-with-sidebar.html">With Sidebar</a></li>                                    
-												<li><a href="classNameical-layout-with-sidebar.html">Classical With Sidebar</a></li>                                    
-												<li><a href="grid-layout-with-map.html">With Map</a></li>                                    
-												<li><a href="grid.html">Full Width</a></li>
-												<li><a href="classNameical-property.html">Classical Full Width</a></li>	 
-											</ul>
-										</li>
-										<li><a >With Map Property<span className="submenu-indicator"></span></a>
-											<ul className="nav-dropdown nav-submenu">
-												<li><a href="list-layout-with-map.html">List With Map</a></li>                                    
-												<li><a href="grid-layout-with-map.html">Grid With Map</a></li>                                    
-												<li><a href="classNameical-layout-with-map.html">Classical With Map</a></li>                                    
-												<li><a href="half-map.html">Half Map Search</a></li> 
-											</ul>
-										</li>
-									</ul>
-								</li>
+								<li><Link href="/search/listings"><a>Listings</a></Link></li>
 								
-								<li><a >Features<span className="submenu-indicator"></span></a>
-									<ul className="nav-dropdown nav-submenu">
-										<li><a >Single Property<span className="submenu-indicator"></span></a>
-											<ul className="nav-dropdown nav-submenu">
-												<li><a href="single-property-1.html">Single Property 1</a></li>                                    
-												<li><a href="single-property-2.html">Single Property 2</a></li>                                    
-												<li><a href="single-property-3.html">Single Property 3</a></li>   
-											</ul>
-										</li>
-										<li><a >Agencies & Agents<span className="submenu-indicator"></span></a>
-											<ul className="nav-dropdown nav-submenu">
-												<li><a href="agents.html">Agents List</a></li>                                    
-												<li><a href="agent-page.html">Agent Page</a></li>                                    
-												<li><a href="agencies.html">Agencies List</a></li>                                    
-												<li><a href="agency-page.html">Agency Page</a></li> 
-											</ul>
-										</li>
-										<li><a >My Account<span className="submenu-indicator"></span></a>
-											<ul className="nav-dropdown nav-submenu">
-												<li><a href="payment.html">Payment Confirmation</a></li>
-												<li><a href="my-profile.html">My Profile</a></li>                                    
-												<li><a href="my-property.html">Property List</a></li>                                    
-												<li><a href="bookmark-list.html">Bookmarked Listings</a></li>                                    
-												<li><a href="change-password.html">Change Password</a></li> 
-											</ul>
-										</li>
-										<li>
-											<a href="compare-property.html">Compare Property</a>                                
-										</li>
-										<li>
-											<a href="submit-property.html">Submit Property</a>                                
-										</li>
-									</ul>
-								</li>
-								
-								<li><a >Pages<span className="submenu-indicator"></span></a>
-									<ul className="nav-dropdown nav-submenu">
-										<li><a href="blog.html">Blogs Page</a></li>                                    
-										<li><a href="blog-detail.html">Blog Detail</a></li>                                    
-										<li><a href="component.html">Shortcodes</a></li> 
-										<li><a href="pricing.html">Pricing</a></li>  
-										<li><a href="404.html">Error Page</a></li>
-										<li><a href="contact.html">Contacts</a></li>
-									</ul>
-								</li>
+								<li><Link href="/agents"><a>Agents</a></Link></li>
 								
 								<li><a  data-toggle="modal" data-target="#signup">Sign Up</a></li>
 								
