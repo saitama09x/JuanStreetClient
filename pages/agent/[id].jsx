@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import Head from 'next/head'
-import Header from '../Components/Header';
-import ProfileListing from '../Components/ProfileListing';
+import Header from '../../Components/Header';
+import ProfileListing from '../../Components/ProfileListing';
 import agentserv from '../../services/agent-services';
-import {AgentSidebar} from '../Components/Sidebar';
+import propserv from '../../services/property-services';
+import {AgentSidebar} from '../../Components/Sidebar';
 export async function getStaticPaths() {
 
   const res = await agentserv.getUserProfile()
@@ -32,13 +33,60 @@ export async function getStaticProps({params}){
 class AgentProfile extends Component{
 
 constructor(props){
-		super(props)
+	super(props)
+	this.state = {
+		provinces : [],
+		listings : [],
+		is_refresh : false
+	}
+	this.onSearhListing = this.onSearhListing.bind(this)
+	this.onLoadedData = this.onLoadedData.bind(this)
+}
+
+onSearhListing(obj){
+  const { agent } = this.props
+  var prov = obj.province;
+  agentserv.searchListing(agent[0].account_id, prov).then((res) => {
+    this.setState({
+      listings : res,
+      is_refresh : true
+    })
+  })
+  
+}
+
+onLoadedData(){
+	const { is_refresh } = this.state
+	if(is_refresh){
+		this.setState({
+			is_refresh : false
+		})
+	}
+}
+
+componentDidMount(){
+
+	propserv.getProvince().then((res) => {
+
+		if(res){
+		  var provarr = [];
+	      for(var i in res){
+	          provarr.push({label : res[i].provDesc, value : res[i].provDesc})
+	      }
+		  this.setState({
+			provinces : provarr
+		  })
+		}
+
+	})
+	
 }
 
 
 render(){
 	
 	const { agent } = this.props
+	const { provinces, is_refresh, listings } = this.state
 
 	if(!agent?.length){
 		return <span>Not Found</span>
@@ -48,7 +96,7 @@ render(){
 	var add_1 = (_agent.address_1 != null) ? _agent.address_1 + ", " : ""
 	var add_2 = (_agent.address_1 != null) ? _agent.address_2 + ", " : ""
 	var city = (_agent.city != null) ? _agent.city + ", " : ""
-	var zip = (_agent.zipcode != null) ? _agent.zipcode : ""
+	var zip = (_agent.zipcode != null) ? _agent.zipcode + ", " : ""
 	var phone = (_agent.personalcon1 != null) ? _agent.personalcon1 : ""
 	return (
 		<div>
@@ -123,10 +171,15 @@ render(){
 								</div>
 								
 							</div>
-							<ProfileListing user_id={_agent.account_id} agent={_agent}/>
+							<ProfileListing 
+								user_id={_agent.account_id} 
+								agent={_agent} 
+								listings={listings}
+								is_refresh={is_refresh}
+								onLoadedData={this.onLoadedData}/>
 						</div>
 							<div className="col-lg-4 col-md-12 col-sm-12">
-								<AgentSidebar />	
+								<AgentSidebar provinces={provinces} onSearhListing={(obj) => this.onSearhListing(obj)} />	
 							</div>
 						</div>
 					</div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import Head from 'next/head'
-import Header from '../Components/Header';
-import { AgentGallery } from '../Components/Gallery';
+import Header from '../../Components/Header';
+import { AgentGallery } from '../../Components/Gallery';
 import agentserv from '../../services/agent-services';
 
 class Agents extends Component{
@@ -12,6 +12,8 @@ constructor(props){
 	this.state = {
 		agents : []
 	}
+
+	this.onSearhAgent = this.onSearhAgent.bind(this)
 }
 
 
@@ -24,6 +26,16 @@ agentserv.getUserProfile().then((res) => {
 	})
 })
 
+}
+
+onSearhAgent(e){
+
+	var val = e.target.value
+	agentserv.searchAgent(val).then((res) => {
+		this.setState({
+			agents : res
+		})
+	})
 }
 
 render(){
@@ -59,7 +71,7 @@ render(){
 							<div className="col-lg-6 col-md-6">
 								<div className="form-group">
 									<div className="input-with-icon">
-										<input type="text" className="form-control" placeholder="Search agents" />
+										<input type="text" className="form-control" placeholder="Search agents" onChange={(e) => this.onSearhAgent(e)}/>
 										<i className="ti-search"></i>
 									</div>
 								</div>	

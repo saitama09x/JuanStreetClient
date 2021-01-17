@@ -9,13 +9,5 @@ module.exports = {
     REACT_APP_MEASURE : 'G-5D8840DNRG'
   },
   trailingSlash: true,
-  exportPathMap: async function(
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
-    return {
-      '/': { page: '/' },
-      '/dashboard': { page: '/Dashboard' }
-    };
-  }
+  distDir: 'build',
 }

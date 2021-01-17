@@ -1,8 +1,14 @@
 import React from 'react'
 import App from 'next/app'
+import "./admin/css/app.min.css";
+import "./admin/css/bootstrap.min.css";
+import "./admin/css/icons.min.css";
+import 'draft-js/dist/Draft.css';
+
 import "./assets/css/styles.css";
 import "./assets/css/colors.css";
 import './scss/custom/select2.css'
+import "./assets/css/custom.css";
 import propserv from '../services/property-services';
 import rootReducer from '../redux';
 import {createStore} from 'redux';

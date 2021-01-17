@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
-import Header from '../Components/Header';
+import Header from '../../Components/Header';
 import Head from 'next/head'
-import { SearchBanner } from '../Components/Banner';
-import ResultListing from '../Components/ResultListing';
-import { Footer } from '../Components/Footer';
+import { SearchBanner } from '../../Components/Banner';
+import ResultListing from '../../Components/ResultListing';
+import { Footer } from '../../Components/Footer';
 import {connect} from 'react-redux';
 import { do_search_listings, do_display_listings } from '../../redux/search-actions'
 import propserv from '../../services/property-services';
@@ -26,7 +26,8 @@ class Listings extends Component{
       this.state = {
           provinces : [],
           proptypes : [],
-          ref_feature : []
+          ref_feature : [],
+          is_loading : false
       }
       this.do_search_listing = this.do_search_listing.bind(this)
   	}
@@ -70,18 +71,24 @@ class Listings extends Component{
         
     }
 
-    do_search_listing(proptype, propadd){
-        const { do_search, display_listings } = this.props
-        var _proptype = (proptype==null) ? "" : proptype
-        var _propadd = (propadd==null) ? "" : propadd
-        propserv.searchListings({ province : _propadd, proptype : _proptype }).then((res) => {
+    do_search_listing(proptype, propadd, local, feature){
+        const { do_search, display_listings, search } = this.props
+        var _proptype = (proptype==null) ? search.proptype : proptype
+        var _propadd = (propadd==null) ? search.propadd : propadd
+        this.setState({
+          is_loading : true
+        })
+        propserv.searchListings({ province : _propadd, proptype : _proptype, proplocal : local, feature : feature }).then((res) => {
             display_listings(res)
+            this.setState({
+              is_loading : false
+            })
         })
     }
 
   	render() {
       
-      const { provinces, proptypes, ref_feature} = this.state
+      const { provinces, proptypes, ref_feature, is_loading} = this.state
       const { search, do_search, display_listings } = this.props
   		return (
   			<div>
@@ -93,13 +100,14 @@ class Listings extends Component{
 		      <div id="main-wrapper">
 		      	<Header />
 		      	<SearchBanner 
+              search={search}            
               provinces={provinces} 
               proptypes={proptypes} 
               display_listings={display_listings}
-              search_listing={(proptype, propadd) => this.do_search_listing(proptype, propadd)}
+              search_listing={(proptype, propadd, local, feature) => this.do_search_listing(proptype, propadd, local, feature)}
               ref_feature={ref_feature}
               />
-		      	<ResultListing />
+		      	<ResultListing prop_loading={is_loading}/>
             <Footer />
 		      </div>
   			</div>

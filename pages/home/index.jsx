@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import { HashRouter, Route, Link }from 'react-router-dom';
 import Head from 'next/head'
-import Header from '../Components/Header';
-import { HomeBanner, HomeBanner4 } from '../Components/Banner';
-import { FeatureProp, TestimonialSlider } from '../Components/Sliders';
-import { HomeGallery, BlogGallery } from '../Components/Gallery';
-import { Footer } from '../Components/Footer';
+import Header from '../../Components/Header';
+import { HomeBanner, HomeBanner4 } from '../../Components/Banner';
+import { FeatureProp, TestimonialSlider } from '../../Components/Sliders';
+import { HomeGallery, BlogGallery } from '../../Components/Gallery';
+import { Footer } from '../../Components/Footer';
 import { connect } from 'react-redux';
 import { do_search_listings } from '../../redux/search-actions'
-
+import propserv from '../../services/property-services';
 
 const mapStateToProps = state => ({
     search: state.search
@@ -23,14 +23,17 @@ const mapDispatchToProps = {
 class Home extends Component{
 
   	constructor(props){
-  		super(props)
-
+  		super(props)  		
+  		this.state = {
+  			is_loading : false
+  		}
   	}
 
 	componentDidMount(){
 
 		
   	}
+
 
 	render(){
 
@@ -98,7 +101,7 @@ class Home extends Component{
 			      		provinces={provinces} 
 			      		do_search={do_search}
 			      		/>
-			      	<section class='gray'>
+			      	<section className='gray'>
 			      		<div className="row">
 							<div className="col-lg-12 col-md-12">
 								<div className="sec-heading center">
@@ -110,7 +113,7 @@ class Home extends Component{
 						<FeatureProp settings={settings} properties={featureProps}/>
 			      	</section>
 			      	<section>
-			      		<HomeGallery provinces_listing={provinces_listing} />
+			      		<HomeGallery provinces_listing={provinces_listing} search_provinces={do_search}/>
 			      	</section>
 			      	<section className="image-cover pb-0" style={{ "background" : "#122947 url(assets/img/pattern.png) no-repeat"}} >
 			      		<TestimonialSlider testimonial_settings={testimonial_settings}/>
@@ -128,7 +131,7 @@ class Home extends Component{
 											<h3>Want to Become a Real Estate Agent?</h3>
 											<span>We'll help you to grow your career and growth.</span>
 										</div>
-										<a href="#" class="btn btn-call-to-act">SignUp Today</a>
+										<a href="#" className="btn btn-call-to-act">SignUp Today</a>
 									</div>
 									
 								</div>

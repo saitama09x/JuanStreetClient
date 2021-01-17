@@ -11,7 +11,7 @@ function search_reducers( state = initialSearch, action){
 	switch(action.type){
 
 		case search_action : 
-			return { ...state, proptype : action.proptype, propadd : action.propadd }
+			return { ...state, proptype : action.proptype, propadd : action.propadd, proplocal : action.proplocal }
 		case display_listings : 
 			return { ...state, listings : action.listings}
 		default:
