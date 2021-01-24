@@ -63,7 +63,16 @@ function AgentServ(){
 		return false
 	}
 
+	this.doLogin = async (obj) => {
 
+		let res = await serv.post("/user/do-login", obj);
+		if(res){
+			return res.data
+		}
+
+		return false
+		
+	}
 }
 
 export default new AgentServ
