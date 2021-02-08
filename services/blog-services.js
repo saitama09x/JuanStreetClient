@@ -5,8 +5,8 @@ const { BASE_URL } = conf
 function BlogServ(){
 
 	const serv = axios.create({
-	  baseURL: BASE_URL + 'api',
-	  timeout: 10000,
+	  baseURL: BASE_URL + 'client',
+	  timeout: 100000,
 	});
 
 

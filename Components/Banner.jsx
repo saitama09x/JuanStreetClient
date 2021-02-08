@@ -97,8 +97,8 @@ export const HomeBanner4 = (props) => {
 	const [isActive, setActive] = useState("any");
 	const [pos, setPos] = useState(0)
 	const [local, setLocal] = useState("");
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [selectedType, setSelectedType] = useState(null);
+	const [selectedOption, setSelectedOption] = useState("");
+	const [selectedType, setSelectedType] = useState("");
 
 	const router = useRouter()
 

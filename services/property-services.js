@@ -5,12 +5,12 @@ const { BASE_URL } = conf
 function propertiesServ(){
 
 	const serv = axios.create({
-	  baseURL: BASE_URL + 'api',
-	  timeout: 10000,
+	  baseURL: BASE_URL + 'client',
+	  timeout: 100000,
 	});
 
 	this.getFeatureProps = async () => {
-		let res = await serv.get('/client/get-properties');
+		let res = await serv.get('/get-properties');
 		if(res){
 			return res.data
 		}
@@ -19,7 +19,7 @@ function propertiesServ(){
 	}
 
 	this.getSingleProperty = async (id) => {
-		let res = await serv.get('/client/get-property/' + id);
+		let res = await serv.get('/get-property/' + id);
 		if(res){
 			return res.data
 		}
@@ -28,7 +28,7 @@ function propertiesServ(){
 
 	this.getPropertyTypeRef = async () => {
 
-		let res = await serv.get('/client/property-type');
+		let res = await serv.get('/property-type');
 		if(res){
 			return res.data
 		}
@@ -37,7 +37,7 @@ function propertiesServ(){
 
 	this.getProvince = async () => {
 
-		let res = await serv.get("/client/location/provices");
+		let res = await serv.get("/location/provinces");
 		if(res){
 			return res.data
 		}
@@ -46,7 +46,8 @@ function propertiesServ(){
 	}
 
 	this.searchListings = async (obj) => {
-		let res = await serv.post("/client/search/listings", { province : obj.province, proptype : obj.proptype, proplocal : obj.proplocal, feature : obj.feature });
+		let res = await serv.post("/search/listings", { province : obj.province, proptype : obj.proptype, 
+			proplocal : obj.proplocal, feature : obj.feature });
 		if(res){
 			return res.data
 		}
@@ -54,7 +55,7 @@ function propertiesServ(){
 	}
 
 	this.province_listing_count = async () => {
-		let res = await serv.get("/client/provices/properties");
+		let res = await serv.get("/provinces/properties");
 		if(res){
 			return res.data
 		}
@@ -63,7 +64,7 @@ function propertiesServ(){
 
 	this.get_referrence_feature = async () => {
 
-		let res = await serv.get("/client/references/features");
+		let res = await serv.get("/references/features");
 		if(res){
 			return res.data
 		}

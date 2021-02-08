@@ -5,47 +5,163 @@ import { HashRouter, Route }from 'react-router-dom';
 import Link from 'next/link'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import AgentServ from '../services/agent-services';
+import conf from '../settings';
 
 const _swal = withReactContent(Swal)
 
 class Header extends Component{
 
+constructor(props){
+
+	super(props)
+	this.state = {
+		email : '',
+		pass : '',
+		fname : '',
+		lname : '',
+		phone : '',
+		pword : ''
+	}
+
+	this.onEmail = this.onEmail.bind(this)
+	this.onPass = this.onPass.bind(this)
+	this.onChangeSign = this.onChangeSign.bind(this)
+}
+
+onEmail(e){
+
+	this.setState({
+		email : e.target.value
+	})
+
+}
+
+onPass(e){
+
+	this.setState({
+		pass : e.target.value
+	})
+
+}
+
+onChangeSign(e){
+
+	var type = e.target.id
+	var val = e.target.value
+
+	if(type == 'fname'){
+		this.setState({
+			fname : val
+		})
+	}
+	else if(type == 'lname'){
+		this.setState({
+			lname : val
+		})
+	}
+	else if(type == 'phone'){
+		this.setState({
+			phone : val
+		})	
+	}
+	else if(type == 'email'){
+		this.setState({
+			email : val
+		})	
+	}
+	else if(type == 'pword'){
+		this.setState({
+			pword : val
+		})		
+	}
+}
+
+
+onSubmit(e){
+
+	const { email, pass } = this.state
+	var obj = {
+		email : email,
+		pass : pass
+	}
+
+	AgentServ.doLogin(obj).then((res) => {
+		if(res){
+			if(res.hasOwnProperty('code')){
+				var query = '?client=' + res.client + '&code=' + res.code
+				window.location.href = conf.BASE_URL + "authenticate/user/login" + query		
+			}
+		}
+	})
+}
+
+onSignUp(e){
+	const { fname, lname, email, phone, pword } = this.state
+	var obj = {
+		fname : fname,
+		lname : lname,
+		email : email,
+		phone : phone,
+		pword : pword
+	}
+
+	AgentServ.signUp(obj).then((res) => {
+		if(res){
+			if(res.hasOwnProperty('code')){
+				var query = '?client=' + res.client + '&code=' + res.code
+				window.location.href = conf.BASE_URL + "authenticate/user/login" + query		
+			}
+		}
+	})
+
+}
 
 
 render(){
 	
-	const SignInForm = () => {
+	const SignInForm = (props) => {
 		return (
 			<div className='p-2'>
 				<div className='form-group'>
 					<label>First Name</label>
-					<input type='text' className='form-control' />
+					<input id='fname' type='text' className='form-control' onChange={(e) => props.onChangeSign(e)}/>
 				</div>
 				<div className='form-group'>
 					<label>Last Name</label>
-					<input type='text' className='form-control' />
+					<input id='lname' type='text' className='form-control' onChange={(e) => props.onChangeSign(e)}/>
 				</div>
 				<div className='form-group'>
 					<label>Email</label>
-					<input type='text' className='form-control' />
+					<input id='email' type='text' className='form-control' onChange={(e) => props.onChangeSign(e)}/>
 				</div>
 				<div className='form-group'>
 					<label>Phone</label>
-					<input type='text' className='form-control' />
+					<input id='phone' type='text' className='form-control' onChange={(e) => props.onChangeSign(e)}/>
+				</div>
+				<div className='form-group'>
+					<label>Password</label>
+					<input id='pword' type='text' className='form-control' onChange={(e) => props.onChangeSign(e)} />
+				</div>
+				<div className='form-group'>
+				<button type='button' className='btn btn-md btn-primary' onClick={(e) => props.onSignUp(e)} >SignUp</button>
 				</div>
 			</div>
 		);
 	}
-	const LoginForm = () => {
+	const LoginForm = (props) => {
 		return (
 			<div className='p-2'>
 				<div className='form-group'>
 					<label>Email</label>
-					<input type='text' className='form-control' />
+					<input type='text' className='form-control' onChange={(e) => props.onEmail(e) }/>
 				</div>
 				<div className='form-group'>
 					<label>Password</label>
-					<input type='text' className='form-control' />
+					<input type='text' className='form-control' onChange={(e) => props.onPass(e) } />
+				</div>
+				<div className='form-group'>
+				<button type='button' className='btn btn-md btn-primary' onClick={(e) => props.onSubmit(e)} >Login</button>
 				</div>
 			</div>
 		)
@@ -54,17 +170,16 @@ render(){
 	const SignIn = () => {
 		_swal.fire({
 			title : 'Sign In',
-			html : <SignInForm />,
-			confirmButtonText : 'Submit',
-			showCancelButton : true
+			html : <SignInForm onChangeSign={(e) => this.onChangeSign(e)} onSignUp={(e) => this.onSignUp(e)}/>,
+			showConfirmButton : false
 		})
 	}
 
 	const Login = () => {
 		_swal.fire({
 			title : 'Login',
-			html : <LoginForm />,
-			confirmButtonText : 'Login',
+			html : <LoginForm onEmail={e => this.onEmail(e)} onPass={e => this.onPass(e) } onSubmit={e => this.onSubmit() }/>,
+			showConfirmButton : false
 		})
 	}
 
@@ -112,7 +227,7 @@ render(){
 										<i className="fas fa-user-circle mr-1"></i>Signin</a>
 								</li>
 								<li className="add-listing theme-bg">
-									<a onClick={(e) => Login()} className='prop-item'>Add Property</a>
+									<a onClick={(e) => Login()} className='prop-item'>Agent</a>
 								</li>
 							</ul>
 						</div>

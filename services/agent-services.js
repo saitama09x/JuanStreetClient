@@ -5,12 +5,12 @@ const { BASE_URL } = conf
 function AgentServ(){
 
 	const serv = axios.create({
-	  baseURL: BASE_URL + 'api',
-	  timeout: 50000,
+	  baseURL: BASE_URL + 'client',
+	  timeout: 100000,
 	});
 
 	this.getUserProfile = async () => {
-		let res = await serv.get('/client/user/profile');
+		let res = await serv.get('/profile');
 		if(res){
 			return res.data
 		}
@@ -19,7 +19,7 @@ function AgentServ(){
 	}
 
 	this.getSingleUser = async (id) => {
-		let res = await serv.get('/client/user/profile/' + id);
+		let res = await serv.get('/profile/' + id);
 		if(res){
 			return res.data
 		}
@@ -28,7 +28,7 @@ function AgentServ(){
 	}
 
 	this.getUserListings = async (id) => {
-		let res = await serv.get('/client/profile/'+ id + '/listings');
+		let res = await serv.get('/profile/'+ id + '/listings');
 		if(res){
 			return res.data
 		}
@@ -37,7 +37,7 @@ function AgentServ(){
 	}
 
 	this.searchAgent = async (search) => {
-		let res = await serv.post("/client/user/profile/search", {search : search});
+		let res = await serv.post("/profile/search", {search : search});
 		if(res){
 			return res.data
 		}
@@ -46,7 +46,7 @@ function AgentServ(){
 	}
 
 	this.searchListing = async (id, search) => {
-		let res = await serv.post("/client/profile/listing/search", {search : search, id : id});
+		let res = await serv.post("/profile/listing/search", {search : search, id : id});
 		if(res){
 			return res.data
 		}
@@ -55,7 +55,7 @@ function AgentServ(){
 	}
 
 	this.sendEmail = async (obj) => {
-		let res = await serv.post("/client/send-email", obj);
+		let res = await serv.post("/send-email", obj);
 		if(res){
 			return res.data
 		}
@@ -65,13 +65,22 @@ function AgentServ(){
 
 	this.doLogin = async (obj) => {
 
-		let res = await serv.post("/user/do-login", obj);
+		let res = await serv.post("/do-login", obj);
 		if(res){
 			return res.data
 		}
 
 		return false
 		
+	}
+
+	this.signUp = async(obj) => {
+		let res = await serv.post("/create-account", obj);
+		if(res){
+			return res.data
+		}
+
+		return false
 	}
 }
 

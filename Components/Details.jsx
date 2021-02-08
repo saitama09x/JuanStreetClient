@@ -134,84 +134,6 @@ export const DetailSingle = (props) => {
 								</div>
 								
 							</div>
-							
-
-							<div className="block-wrap">
-								
-								<div className="block-header">
-									<h4 className="block-title">47 Reviews</h4>
-								</div>
-								
-								<div className="block-body">
-									<div className="author-review">
-										<div className="comment-list">
-											<ul>
-												<li className="article_comments_wrap">
-													<article>
-														<div className="article_comments_thumb">
-															<img src="https://via.placeholder.com/150x150" alt="" />
-														</div>
-														<div className="comment-details">
-															<div className="comment-meta">
-																<div className="comment-left-meta">
-																	<h4 className="author-name">Rosalina Kelian</h4>
-																	<div className="comment-date">19th May 2018</div>
-																</div>
-															</div>
-															<div className="comment-text">
-																<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
-																	perspiciatis unde omnis iste natus error.</p>
-															</div>
-														</div>
-													</article>
-												</li>
-												<li className="article_comments_wrap">
-													<article>
-														<div className="article_comments_thumb">
-															<img src="https://via.placeholder.com/150x150" alt="" />
-														</div>
-														<div className="comment-details">
-															<div className="comment-meta">
-																<div className="comment-left-meta">
-																	<h4 className="author-name">Rosalina Kelian</h4>
-																	<div className="comment-date">19th May 2018</div>
-																</div>
-															</div>
-															<div className="comment-text">
-																<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
-																	perspiciatis unde omnis iste natus error.</p>
-															</div>
-														</div>
-													</article>
-												</li>
-												<li className="article_comments_wrap">
-													<article>
-														<div className="article_comments_thumb">
-															<img src="https://via.placeholder.com/150x150" alt="" />
-														</div>
-														<div className="comment-details">
-															<div className="comment-meta">
-																<div className="comment-left-meta">
-																	<h4 className="author-name">Russel Ikravia</h4>
-																	<div className="comment-date">17th May 2020</div>
-																</div>
-															</div>
-															<div className="comment-text">
-																<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
-																	perspiciatis unde omnis iste natus error.</p>
-															</div>
-														</div>
-													</article>
-												</li>
-											</ul>
-										</div>
-									</div>
-									<a href="#" className="reviews-checked theme-cl"><i className="fas fa-arrow-alt-circle-down mr-2"></i>See More Reviews</a>
-
-								</div>
-								
-							</div>
-							
 
 							<div className="block-wrap">
 								
@@ -289,52 +211,7 @@ export const DetailSingle = (props) => {
 									
 								</div>
 								
-							</div>
-							
-
-							<div className="block-wrap">
-								
-								<div className="block-header">
-									<h4 className="block-title">Write A Review</h4>
-								</div>
-								
-								<div className="block-body">
-									<div className="row">
-										
-										<div className="col-lg-12 col-md-12 col-sm-12">
-											<div className="form-group">
-												<input type="text" className="form-control" placeholder="Subject Title" />
-											</div>
-										</div>
-										
-										<div className="col-lg-6 col-md-6 col-sm-12">
-											<div className="form-group">
-												<input type="text" className="form-control" placeholder="Your Name" />
-											</div>
-										</div>
-										
-										<div className="col-lg-6 col-md-6 col-sm-12">
-											<div className="form-group">
-												<input type="email" className="form-control" placeholder="Your Email" />
-											</div>
-										</div>
-										
-										<div className="col-lg-12 col-md-12 col-sm-12">
-											<div className="form-group">
-												<textarea className="form-control ht-80" placeholder="Messages"></textarea>
-											</div>
-										</div>
-										
-										<div className="col-lg-12 col-md-12 col-sm-12">
-											<div className="form-group">
-												<button className="btn btn-theme" type="submit">Submit Review</button>
-											</div>
-										</div>
-										
-									</div>
-								</div>
-								
-							</div>
+							</div>						
 							
 						</div>
 						
@@ -367,43 +244,6 @@ export const DetailSingle = (props) => {
 										phone : phone,
 										comment : comment
 									})}>Send Message</button>
-								</div>
-								
-
-								<div className="sidebar-widgets">
-									
-									<h4>Mortgage Calculator</h4>
-									
-									<div className="form-group">
-										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Sale Price"/>
-											<i className="ti-money"></i>
-										</div>
-									</div>
-									
-									<div className="form-group">
-										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Down Payment" />
-											<i className="ti-money"></i>
-										</div>
-									</div>
-									
-									<div className="form-group">
-										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Loan Term (Years)" />
-											<i className="ti-calendar"></i>
-										</div>
-									</div>
-									
-									<div className="form-group">
-										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Interest Rate" />
-											<i className="fa fa-percent"></i>
-										</div>
-									</div>
-									
-									<button className="btn btn-theme full-width">Calculate</button>
-									
 								</div>
 								
 

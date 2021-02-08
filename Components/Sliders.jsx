@@ -99,7 +99,8 @@ export const SliderBanner = (props) => {
 	};
 
 	var NavSettings = {
-	      slidesToShow : 3,
+	      slidesToShow : 6,
+	      slidesToScroll: 1,
           swipeToSlide : true,
 	      asNavFor: sliderBig,
 		  dots: false,
@@ -186,7 +187,7 @@ export const SliderBanner = (props) => {
 									{ listings?.media?.length && listings.media.map((item, index) => {
 
 										return (
-											<a  key={'sliderNav-' + index} className="item-slick"><img src={"http://localhost:3001/uploads/" + item.media_filename} alt="Alt" /></a>
+											<a  key={'sliderNav-' + index} className="item-slick"><img src={IMG_URL + item.media_filename} alt="Alt" width="240px"/></a>											
 										)
 
 									})}
@@ -340,3 +341,31 @@ export const TestimonialSlider = (props) => {
 
 
 }
+
+
+export const SliderResultListing = (props) => {
+	const { images } = props
+
+	 var settings = {
+	      slidesToShow:1,
+		  arrows: true,
+		  dots: false,
+		  autoplay:false,
+	  };
+
+return (
+
+	<Slider {...settings} >
+	{ images.length && images.map((item, index) => {
+
+		return (
+			<a  key={'slider-' + index} className="item-slick"><img src={IMG_URL + item.media_filename} alt="Alt" /></a>
+		)
+
+	})}
+	</Slider>
+
+)
+
+}
+

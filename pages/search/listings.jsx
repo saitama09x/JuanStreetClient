@@ -71,10 +71,10 @@ class Listings extends Component{
         
     }
 
-    do_search_listing(proptype, propadd, local, feature){
+    do_search_listing(proptype, propadd, local, feature){        
         const { do_search, display_listings, search } = this.props
-        var _proptype = (proptype==null) ? search.proptype : proptype
-        var _propadd = (propadd==null) ? search.propadd : propadd
+        var _proptype = (proptype != "") ? proptype : search.proptype
+        var _propadd = (propadd != "") ? propadd : search.propadd
         this.setState({
           is_loading : true
         })

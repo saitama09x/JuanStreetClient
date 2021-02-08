@@ -9,10 +9,10 @@ app.prepare()
 .then(() => {
   const server = express()
   
-  server.use('/api', createProxyMiddleware({
-    target: 'http://localhost:3001', 
+  server.use('/client', createProxyMiddleware({
+    target: 'http://juanstreet.com.ph:3001', 
     pathRewrite: {
-        '^/api': '/api'
+        '^/client': '/client'
     },
     changeOrigin: true
   }));
@@ -21,9 +21,9 @@ app.prepare()
       return handle(req, res)
   })
     
-  server.listen(3000, (err) => {
+  server.listen(3002, (err) => {
     if (err) throw err
-    console.log('> Ready on http://localhost:3000')
+    console.log('> Ready on http://localhost:3002')
   })
 })
 .catch((ex) => {
