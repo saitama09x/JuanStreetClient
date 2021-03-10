@@ -1,9 +1,5 @@
 import React from 'react'
 import App from 'next/app'
-import "./admin/css/app.min.css";
-import "./admin/css/bootstrap.min.css";
-import "./admin/css/icons.min.css";
-import 'draft-js/dist/Draft.css';
 
 import "./assets/css/styles.css";
 import "./assets/css/colors.css";

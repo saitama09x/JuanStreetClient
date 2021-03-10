@@ -10,38 +10,57 @@ class Agents extends Component{
 constructor(props){
 	super(props)
 	this.state = {
-		agents : []
+		agents : [],
+		isLoading : true,
+		searchAgent : ''
 	}
 
 	this.onSearhAgent = this.onSearhAgent.bind(this)
+	this.onSubmitSearch = this.onSubmitSearch.bind(this)
 }
 
 
 componentDidMount(){
 
-agentserv.getUserProfile().then((res) => {
-	
-	this.setState({
-		agents : res
+	agentserv.getUserProfile().then((res) => {
+		
+		this.setState({
+			agents : res,
+			isLoading : false
+		})
 	})
-})
 
 }
 
 onSearhAgent(e){
 
 	var val = e.target.value
-	agentserv.searchAgent(val).then((res) => {
+	this.setState({		
+		searchAgent : val
+	})
+	
+}
+
+onSubmitSearch(){
+
+	const { searchAgent } = this.state
+	
+	this.setState({		
+		isLoading : true
+	})
+
+	agentserv.searchAgent(searchAgent).then((res) => {
 		this.setState({
-			agents : res
+			agents : res,
+			isLoading : false
 		})
 	})
+
 }
 
 render(){
-	const { agents } = this.state
+	const { agents, isLoading } = this.state
 	
-
 	return (
 		<div>
 			<Head>
@@ -77,10 +96,10 @@ render(){
 								</div>	
 							</div>
 							<div className="col-lg-2 col-md-3">
-								<a href="#" className="btn search-btn">Find Agents</a>
+								<a onClick={(e) => this.onSubmitSearch() } className="btn search-btn">Find Agents</a>
 							</div>
 						</div>
-						<AgentGallery agents={agents}/>
+						<AgentGallery agents={agents} isLoading={isLoading} />
 			     	</div>
 		     </section>
 		 </div>

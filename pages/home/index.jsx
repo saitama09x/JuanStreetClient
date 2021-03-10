@@ -25,20 +25,51 @@ class Home extends Component{
   	constructor(props){
   		super(props)  		
   		this.state = {
-  			is_loading : false
+  			is_loading : false,
+  			provinces : [],
+  			municipalities : []
   		}
   	}
 
 	componentDidMount(){
+		var provarr = [];
+		propserv.getProvince().then((provinces) => {
+			if(provinces){
+		      for(var i in provinces){
+		          provarr.push({label : provinces[i].provDesc, value : provinces[i].provDesc})
+		      }
 
+		      this.setState({
+		      		provinces : provarr	
+		      })
+		    }
+		})
 		
+		propserv.getMunicipalities().then((res) => {
+			if(res){
+				var munarr = []
+				for(var i in res){
+					var label = res[i]['citymunDesc'];
+					var prov = res[i]['provDesc'];
+					var zipcode = res[i]['zipCode'];
+					munarr.push({
+						label : label,
+						value : label,
+						prov : prov
+					})
+				}
+				this.setState({
+		      		municipalities : munarr	
+		      	})
+			}
+		})
   	}
 
 
 	render(){
 
-	 const { featureProps, proptypes, provinces, do_search, provinces_listing } = this.props
-
+	 const { featureProps, proptypes, do_search, provinces_listing } = this.props
+	 const { provinces, municipalities } = this.state 
 
 	 var settings = {
 	      slidesToShow:3,
@@ -97,8 +128,9 @@ class Home extends Component{
 			      <div id="main-wrapper">
 			      	<Header />
 			      	<HomeBanner4 
-			      		proptypes={proptypes} 
-			      		provinces={provinces} 
+			      		proptypes={proptypes}
+			      		provinces={provinces}
+			      		municipalities={municipalities} 
 			      		do_search={do_search}
 			      		/>
 			      	<section className='gray'>

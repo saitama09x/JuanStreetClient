@@ -17,6 +17,7 @@ class ProfileListing extends Component{
   	componentDidMount(){
   		const { user_id } = this.props
   		agentserv.getUserListings(user_id).then((res) => {
+        
   			this.setState({
   				listings : res
   			})

@@ -192,7 +192,48 @@ section{
 p {
     line-height:1.8;
 }
-	
+.image-nav{
+  
+}
+
+.item-slick.image-nav img{
+  visibility:hidden;
+}
+
+.item-slick.preview-img img{
+  visibility:hidden;
+}
+.item-slick.preview-img{
+  height:500px;
+}
+.item-slick.preview-img .bg-thumb{
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.item-slick.image-nav .bg-thumb{
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  height:120px;
+}
+
+.list-img-slide .bg-thumb{
+  height:230px;
+  width:100%;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+}
+
+.list-img-slide .bg-thumb img{
+  visibility:hidden;
+}
+
 .gray-bg{
 	background:#f7f9fc url(../img/pattern.png);
 	background-size: cover;
@@ -4165,6 +4206,8 @@ ul:last-child {
 }
 .hero-banner p{
 	font-size:18px;
+  color:white;
+  text-shadow: 0px 1px 2px #180A06;
 }
 [data-overlay] {
     position: relative;
@@ -4619,6 +4662,8 @@ h1.big-header-capt {
     margin-bottom:0.4em;
     text-align: center;
 	text-transform:capitalize;
+  color:white;
+  text-shadow: 0px 1px 2px #180A06;
 }
 .italian-search .input-with-icon .form-control,
 .italian-search .input-with-shadow .form-control,
@@ -6087,17 +6132,21 @@ span.tag_t {
     flex: 1;
 }
 .property-author .path-img {
-    max-width:35px;
-    width:35x;
+    max-width: 35px;
+    width: 35px;
     display: inline-block;
     float: left;
-    border-radius: 50%;
+    border-radius: 30px;
     overflow: hidden;
     margin-right: 10px;
+    height: 35px;
+    position: relative;
 }
 .property-author .path-img img {
-    border-radius: 50%;
-    max-width:35px;
+    max-width: 35px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 .property-author h5 {
     margin: 0;
@@ -6241,7 +6290,6 @@ ul.fr-grid-social li a{
     display: block;
     z-index: 1;
 	opacity:0.15;
-	background:linear-gradient(to bottom, transparent 5%, #1e2a4c);
 }
 .property-listing.property-2.modern .slick-slide a:before{
 	opacity:0.1;
@@ -7524,10 +7572,14 @@ span.mod-close {
 .agent-title .agent-photo {
     float: left;
     display: block;
-}
-.agent-title .agent-photo img {
     border-radius: 50%;
     max-width: 72px;
+    width:70px;
+    height:70px;
+    overflow:hidden;
+}
+.agent-title .agent-photo img {
+    width:100%;
 }
 .agent-details {
     margin-left: 92px;
@@ -9779,7 +9831,17 @@ ul.packages-lists-list li {
 	}
 	.hero-banner {
 		min-height: 580px;
+    position:relative;
 	}
+  .hero-banner::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0px;
+    left:0px;
+    background-color:#00000030;
+  }
 	.hero-search h1 {
 		font-size: 52px;
 	}

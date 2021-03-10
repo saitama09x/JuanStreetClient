@@ -9,7 +9,8 @@ export function do_search_listings(obj){
 		type : search_action,
 		proptype : obj.proptype,
 		propadd : obj.propadd,
-		proplocal : obj.proplocal
+		proplocal : obj.proplocal,
+		propmun : obj.propmun
 	}
 
 }

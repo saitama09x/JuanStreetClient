@@ -1,11 +1,11 @@
 const axios = require('axios');
 import conf from '../settings'
-const { BASE_URL } = conf
+const { API_URL } = conf
 
 function BlogServ(){
 
 	const serv = axios.create({
-	  baseURL: BASE_URL + 'client',
+	  baseURL: API_URL + 'client',
 	  timeout: 100000,
 	});
 

@@ -2,15 +2,21 @@ import React, { Component, useState } from 'react';
 import ReactDOM from 'react-dom'
 import Link from 'next/link'
 import conf from '../settings';
-const { IMG_URL } = conf
+import  currencyFormatter from 'currency-formatter'
+const { IMG_URL, AGENT_IMG, BASE_URL } = conf
 
 export const DetailSingle = (props) => {
-	const { listings, features, sendEmail } = props
-	const { property, address, details } = listings;
+	const { listings, features, sendEmail, GoogleMap, latitude, longitude } = props
+	const { property, address, details, rooms } = listings;
 	const [email, setEmail] = useState("");
 	const [phone, setPhone] = useState("");
 	const [comment, setComment] = useState("");
 
+	var photo = BASE_URL + listings.profile.photo_url
+	console.log(photo)
+	if(listings.profile.photo_url.indexOf('http') != -1 || listings.profile.photo_url.indexOf('google') != -1){
+			photo = listings.profile.photo_url
+	}
 
 	return (
 		<section className="gray">
@@ -31,16 +37,36 @@ export const DetailSingle = (props) => {
 									<ul className="dw-proprty-info">
 										<li><strong>Bedrooms</strong>{details.bedrooms}</li>
 										<li><strong>Bathrooms</strong>{details.bathrooms}</li>
-										<li><strong>Area</strong>{details.property_size} sq ft</li>
-										<li><strong>Type</strong>{details.property_type}</li>
-										<li><strong>Price</strong>Php {details.vendor_requested_price}</li>
-										<li><strong>City</strong>{address.town_city}</li>
-										<li><strong>Build On</strong>2007</li>
+										<li><strong>Floor Area</strong>{details.property_size} SqM</li>
+										<li><strong>Lot Area</strong>{details.lotarea} SqM</li>
+										<li><strong>Furnishing</strong>{details.furnishing}</li>
+										<li><strong>Floor Level</strong>{address.floor_level}</li>
+										<li><strong>Developer</strong>{details.developer}</li>
+										<li><strong>Current Tenancy</strong>{details.currently_tenanted}</li>
 									</ul>
 								</div>
 								
 							</div>
 							
+							<div className="block-wrap">
+								
+								<div className="block-header">
+									<h4 className="block-title">Type of Rooms</h4>
+								</div>
+								
+								<div className="block-body">
+									<ul className="avl-features third">
+									{rooms.map((item, index) => {
+										return (
+											<li key={'rooms-' + index}>
+													{item.rtn + ' - ' + item.rs}
+											</li>
+										)
+									})}
+									</ul>
+								</div>
+								
+							</div>
 
 							<div className="block-wrap">
 								
@@ -49,24 +75,43 @@ export const DetailSingle = (props) => {
 								</div>
 								
 								<div className="block-body">
-									<p>{property.description}</p>
+									<div dangerouslySetInnerHTML={{ __html : property.description}} />
 								</div>
 								
 							</div>
 							
-	
 							<div className="block-wrap">
 								
 								<div className="block-header">
-									<h4 className="block-title">Ameneties</h4>
+									<h4 className="block-title">Property Details</h4>
+								</div>
+								
+								<div className="block-body">
+									<div dangerouslySetInnerHTML={{ __html : details.other_property_details}} />
+								</div>
+								
+							</div>
+
+							<div className="block-wrap">
+								
+								<div className="block-header">
+									<h4 className="block-title">House Feature</h4>
 								</div>
 								
 								<div className="block-body">
 									<ul className="avl-features third">
-										{listings.featprop.map((item, index) => <li key={'item-' + index}>{item.pfn}</li>)}
+										{listings.feathouse.map((item, index) => <li key={'item-' + index}>{item.hfn}</li>)}
 									</ul>
 								</div>
-								
+
+								<div className="block-header">
+									<h4 className="block-title">Property Feature</h4>
+								</div>
+								<div className="block-body">
+								<ul className="avl-features third">
+									{listings.featprop.map((item, index) => <li key={'item-' + index}>{item.pfn}</li>)}
+								</ul>
+								</div>
 							</div>
 							
 
@@ -128,7 +173,16 @@ export const DetailSingle = (props) => {
 								
 								<div className="block-body">
 									<div className="map-container">
-										<div id="singleMap" data-latitude="40.7427837" data-longitude="-73.11445617675781" data-mapTitle="Our Location"></div>
+										<div id="singleMap">
+											<GoogleMap 
+					                          isMarkerShown
+					                          lat={latitude}
+					                          lng={longitude}
+					                          googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyBdmXWRqJ_riDZS3gT3JYAyRNsMPq07Zag&v=3.exp&libraries=geometry,drawing,places"}
+					                          loadingElement={<div style={{ height: `100%` }} />}
+					                          containerElement={<div style={{ height: `400px` }} />}
+					                          mapElement={<div style={{ height: `100%` }} />} />
+										</div>
 									</div>
 
 								</div>
@@ -222,10 +276,10 @@ export const DetailSingle = (props) => {
 
 								<div className="agent-widget">
 									<div className="agent-title">
-										<div className="agent-photo"><img src="https://via.placeholder.com/400x400" alt="" /></div>
+										<div className="agent-photo"><img src={photo} alt="" /></div>
 										<div className="agent-details">
-											<h4><a href="#">Shivangi Preet</a></h4>
-											<span><i className="lni-phone-handset"></i>(91) 123 456 7895</span>
+											<h4><Link href={"/agent/" + listings.profile.account_id}><a>{listings.profile.first_name + ' ' + listings.profile.last_name}</a></Link></h4>
+											<span><i className="lni-phone-handset"></i>{listings.profile.phone_number_1}</span>
 										</div>
 										<div className="clearfix"></div>
 									</div>
@@ -249,28 +303,28 @@ export const DetailSingle = (props) => {
 
 								<div className="sidebar-widgets">
 									
-									<h4>Featured Property</h4>
+									<h4>See More Results</h4>
 									
 									<div className="sidebar_featured_property">
 										
-										{features?.length && features?.map((item, index) => {
+										{features.length ? features.map((item, index) => {
 
 											if(index < 5){
 												return (
 
 													<div className="sides_list_property" key={'listing-' + index}>
 														<div className="sides_list_property_thumb">
-															<img src={IMG_URL + item.media} className="img-fluid" alt="" />
+															<Link href={"/single-listing/" + item.property_id}><a><img src={IMG_URL + item.image.media_filename} className="img-fluid" alt="" /></a></Link>
 														</div>
 														<div className="sides_list_property_detail">
-															<h4><a href="single-property-1.html">{item.property_name}</a></h4>
+															<h4><Link href={"/single-listing/" + item.property_id}><a>{item.property_name}</a></Link></h4>
 															<span><i className="ti-location-pin"></i>{item.town_city}</span>
 															<div className="lists_property_price">
 																<div className="lists_property_types">
 																	<div className="property_types_vlix sale">{item.listing_type}</div>
 																</div>
 																<div className="lists_property_price_value">
-																	<h4>Php {item.vendor_requested_price}</h4>
+																	<h4>{currencyFormatter.format(item.vendor_requested_price, { locale: 'en-PH' })}</h4>
 																</div>
 															</div>
 														</div>
@@ -281,7 +335,7 @@ export const DetailSingle = (props) => {
 											
 											return <span></span>
 
-										})}
+										}) : <div className='d-flex justify-content-center'><img src="/images/loading.gif" /></div> }
 										
 									</div>
 									

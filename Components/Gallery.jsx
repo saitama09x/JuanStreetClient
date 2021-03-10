@@ -2,6 +2,9 @@ import React, { Component, useState } from 'react';
 import ReactDOM from 'react-dom'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image'
+import conf from '../settings';
+const { AGENT_IMG, IMG_URL, BASE_URL } = conf
 
 export const HomeGallery = (props) => {
 	const { provinces_listing, search_provinces } = props
@@ -31,7 +34,7 @@ export const HomeGallery = (props) => {
 							<div className="col-lg-3 col-md-3 col-sm-6" key={"item-" + index}>
 								<div className="location-listing">
 									<div className="location-listing-thumb">
-										<a onClick={(e) => _search_provinces(item.prov)} className="prop-item"><img src="https://via.placeholder.com/1280x880" className="img-fluid" alt="" /></a>
+										<a onClick={(e) => _search_provinces(item.prov)} className="prop-item"><img src="/images/agusan.jpg" className="img-fluid" alt="" /></a>
 									</div>
 									<div className="location-listing-caption">
 										<h4><a onClick={(e) => _search_provinces(item.prov)} className="prop-item">{item.prov}</a></h4>
@@ -142,7 +145,17 @@ export const BlogGallery = () => {
 
 export const AgentGallery = (props) => {
 	
-	const { agents } = props
+	const { agents, isLoading } = props
+
+	if(isLoading){
+		return (
+			<div className="container">
+				<div className="row justify-content-center">
+					<img src="/assets/img/loader.gif" width="100px"/>
+				</div>
+			</div>
+		)
+	}
 
 	return (
 		<div className="row">
@@ -152,9 +165,12 @@ export const AgentGallery = (props) => {
 				var city = (item.city != null) ? item.city + ", " : ""
 				var zip = (item.zipcode != null) ? item.zipcode : ""
 				var phone = (item.personalcon1 != null) ? item.personalcon1 : ""
-				var photo = (item.photo_url != null) ? item.photo_url : ""
+				var photo = BASE_URL + item.photo_url
+				if(item.photo_url.indexOf('http') != -1 || item.photo_url.indexOf('google') != -1){
+						photo = item.photo_url
+				}
 				return (
-					<div className="col-lg-4 col-md-6 col-sm-12">
+					<div className="col-lg-4 col-md-6 col-sm-12" key={'agent-' + item.profile_id}>
 						<div className="agents-grid">
 							
 							<div className="jb-bookmark"><a data-toggle="tooltip" data-original-title="Bookmark"><i className="ti-bookmark"></i></a></div>
@@ -162,13 +178,13 @@ export const AgentGallery = (props) => {
 							<div className="agents-grid-wrap">
 								
 								<div className="fr-grid-thumb">
-									<a href="freelancer-detail.html">
+									<Link href={"/agent/" + item.owner_id} ><a>
 										<div className="overall-rate">4.4</div>
 										<img src={photo} className="img-fluid mx-auto" alt="" />
-									</a>
+									</a></Link>
 								</div>
 								<div className="fr-grid-deatil">
-									<h5 className="fr-can-name"><a href="#">{item.first_name + " " + item.middle_name + " " + item.last_name}</a></h5>
+									<h5 className="fr-can-name"><Link href={"/agent/" + item.owner_id} ><a>{item.first_name + " " + item.middle_name + " " + item.last_name}</a></Link></h5>
 									<span className="fr-position"><i className="lni-map-marker"></i>{add_1 +  add_2 + city + zip }</span>
 									<div className="fr-can-rating">
 										<i className="ti-star filled"></i>
@@ -211,7 +227,11 @@ export const ProfileListingGallery = (props) => {
 	if(!listings?.length){
 		return <div className="col-lg-12 col-md-12 col-sm-12 list-layout"><h4>No Result Found</h4></div>
 	}
-
+	var photo = BASE_URL + agent.photo_url
+	if(agent.photo_url.indexOf('http') != -1 || agent.photo_url.indexOf('google') != -1){
+			photo = agent.photo_url
+	}
+	
 	return (
 		<div className="col-lg-12 col-md-12 col-sm-12 list-layout">
 			{listings?.length && listings?.map((item, index) => {
@@ -221,7 +241,7 @@ export const ProfileListingGallery = (props) => {
 							
 					<div className="listing-img-wrapper">
 					<Link href={"/single-listing/" + item.property_id} ><a>
-					<img src={item.media_filename} className="img-fluid mx-auto" alt="" />
+					<img src={IMG_URL + item.media_filename} className="img-fluid mx-auto" alt="" />
 					</a>
 					</Link>
 					<div className="listing-like-top">
@@ -241,11 +261,11 @@ export const ProfileListingGallery = (props) => {
 
 					<div className="listing-detail-wrapper">
 					<div className="listing-short-detail">
-					<h4 className="listing-name"><a href="single-property-2.html">{item.property_name}s</a></h4>
+					<h4 className="listing-name"><Link href={"/single-listing/" + item.property_id}><a>{item.property_name}s</a></Link></h4>
 					<span className="listing-location"><i className="ti-location-pin"></i>{item.line_3_area_locality + ", " + item.town_city + ", " + item.country_state_province + ", " + item.zip_postcode}</span>
 					</div>
 					<div className="list-author">
-					<a href="#"><img src={agent.photo_url} className="img-fluid img-circle avater-30" alt="" /></a>
+					<a><img src={photo} className="img-fluid" alt="" /></a>
 					</div>
 					</div>
 
@@ -262,7 +282,7 @@ export const ProfileListingGallery = (props) => {
 					<h4 className="list-pr">{item.vendor_requested_price}</h4>
 					</div>
 					<div className="listing-detail-btn">
-					<a className="more-btn">More Info</a>
+					<Link href={"/single-listing/" + item.property_id}><a className="more-btn">More Info</a></Link>
 					</div>
 					</div>
 

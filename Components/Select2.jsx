@@ -208,7 +208,7 @@ export default class Select2 extends Component{
 						<input autoComplete="no" disabled={this.props.isDisabled} className="form-control" onFocus={(e) => this.OnTypingFocus() } 
 						onBlur={(e) => this.OnTypingBlur()} 
 						onChange={(e) => this.OnTypingInput(e)}
-						placeholder={(this.state.selectedText == "") ? this.state.placeholder : ''}
+						placeholder={(this.state.selectedText == "") ? this.props.placeholder : ''}
 						ref={this.state.inputref}
 						/>
 

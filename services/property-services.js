@@ -1,11 +1,11 @@
 const axios = require('axios');
 import conf from '../settings'
-const { BASE_URL } = conf
+const { API_URL } = conf
 
 function propertiesServ(){
 
 	const serv = axios.create({
-	  baseURL: BASE_URL + 'client',
+	  baseURL: API_URL + 'client',
 	  timeout: 100000,
 	});
 
@@ -24,6 +24,16 @@ function propertiesServ(){
 			return res.data
 		}
 		return false
+	}
+
+	this.getLocationResult = async (id) => {
+		
+		let res = await serv.get('/property-location-result/' + id);
+		if(res){
+			return res.data
+		}
+		return false
+		
 	}
 
 	this.getPropertyTypeRef = async () => {
@@ -47,7 +57,9 @@ function propertiesServ(){
 
 	this.searchListings = async (obj) => {
 		let res = await serv.post("/search/listings", { province : obj.province, proptype : obj.proptype, 
-			proplocal : obj.proplocal, feature : obj.feature });
+			proplocal : obj.proplocal, feature : obj.feature, 
+			min_amount : obj.min, max_amount : obj.max, municipality : obj.municipality, sort : obj.sort });
+		
 		if(res){
 			return res.data
 		}
@@ -66,6 +78,22 @@ function propertiesServ(){
 
 		let res = await serv.get("/references/features");
 		if(res){
+			return res.data
+		}
+		return false
+	}
+
+	this.geocoding = async function(query){
+		let res = await axios.get('http://api.positionstack.com/v1/forward?access_key=0dfac563419027f559acd6afa493acd1&query='+query);
+		if(res){
+			return res.data
+		}
+		return false
+	}
+
+	this.getMunicipalities = async function(){
+		let res = await serv.get('/location/munipalities');
+		if(res.status == 200){
 			return res.data
 		}
 		return false

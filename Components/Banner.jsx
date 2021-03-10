@@ -1,7 +1,9 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom'
 import Slider from "react-slick";
 import Select2 from './Select2';
+import  currencyFormatter from 'currency-formatter'
+import { useDispatch } from 'react-redux'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from 'next/router'
@@ -92,13 +94,16 @@ const options = [
 ];
 
 export const HomeBanner4 = (props) => {
-	const { proptypes, provinces, onChange, do_search } = props
+	const { proptypes, provinces, onChange, do_search , municipalities} = props
 
 	const [isActive, setActive] = useState("any");
 	const [pos, setPos] = useState(0)
 	const [local, setLocal] = useState("");
-	const [selectedOption, setSelectedOption] = useState("");
+	const [selectedProv, setSelectedProv] = useState("");
+	const [selectMun, setSelectedMun] = useState("");
 	const [selectedType, setSelectedType] = useState("");
+	const [filterMun, setFilterMun] = useState([])
+	const [isSelectProv, setIsSelectProv] = useState(false)
 
 	const router = useRouter()
 
@@ -116,12 +121,41 @@ export const HomeBanner4 = (props) => {
 	}
 
 	const _do_search = () => {
-		do_search({proptype : selectedType, propadd : selectedOption, proplocal : local})
+		do_search({proptype : selectedType, propadd : selectedProv, proplocal : local, propmun : selectMun})
 		router.push("/search/listings")
 	}
 
+	const onSelectedMun = (val) => {
+		setSelectedMun(val);
+	}
+
+	useEffect(() => {
+		if(selectedProv != "" && isSelectProv){
+			var filter = municipalities.filter((val, index) => {
+				let str = new String(val.prov)
+				var rgxp = new RegExp(selectedProv, "i");
+				if(rgxp.test(str.toString())){
+					return val;
+				}
+				return false
+			})
+			setFilterMun(filter)
+			setIsSelectProv(false)
+		}
+		else if(selectedProv == "" && !isSelectProv)
+		{
+			setFilterMun(municipalities)
+		}
+
+	})
+
+	const onSelectedProv = (val) => {
+		setSelectedProv(val)
+		setIsSelectProv(true)
+	}
+
 	return (
-		<div className="image-cover hero-banner" style={{ "background" : "url(https://via.placeholder.com/1920x1000) no-repeat"}} >
+		<div className="image-cover hero-banner" style={{ "background" : "url(/images/wallpaper-banner.jpg) no-repeat"}} >
 				<div className="container">
 					
 					<h1 className="big-header-capt mb-0">Find Your Property</h1>
@@ -137,11 +171,32 @@ export const HomeBanner4 = (props) => {
 						<div className="hero-search-content">
 
 							<div className="row">
-							
+									
 								<div className="col-lg-3 col-md-3 col-sm-12 small-padd">
 									<div className="form-group">
 										<div className="input-with-icon">
-											<input type="text" className="form-control b-r" placeholder="Neighborhood" onChange={(e) => setLocal(e.target.value)}/>
+											<Select2 
+												initOptions={provinces} 
+												onChange={(e, val, label) => onSelectedProv(val)}
+												defaultText={selectedProv}
+												isDisabled={false}
+												placeholder={"Provinces"}
+											/>
+											<i className="ti-location-pin"></i>
+										</div>
+									</div>
+								</div>
+
+								<div className="col-lg-3 col-md-3 col-sm-12 small-padd">
+									<div className="form-group">
+										<div className="input-with-icon b-l b-r">
+											<Select2 
+												initOptions={filterMun} 
+												onChange={(e, val, label) => onSelectedMun(val)}
+												defaultText={""}
+												isDisabled={false}
+												placeholder={"Municipality"}
+											/>
 											<i className="ti-search"></i>
 										</div>
 									</div>
@@ -164,22 +219,6 @@ export const HomeBanner4 = (props) => {
 									</div>
 								</div>
 
-								
-								<div className="col-lg-3 col-md-3 col-sm-12 small-padd">
-									<div className="form-group">
-										<div className="input-with-icon b-l b-r">
-											<Select2 
-												initOptions={provinces} 
-												onChange={(e, val, label) => setSelectedOption(val)}
-												defaultText={""}
-												isDisabled={false}
-												placeholder={""}
-											/>
-											<i className="ti-location-pin"></i>
-										</div>
-									</div>
-								</div>
-								
 								<div className="col-lg-1 col-md-1 col-sm-12 small-padd">
 									<div className="form-group">
 										<a role="button" className="collapsed ad-search" data-toggle="collapse" href="#advance-search" aria-expanded="false" aria-controls="advance-search"><i className="ti-align-center"></i></a>
@@ -192,122 +231,6 @@ export const HomeBanner4 = (props) => {
 									</div>
 								</div>
 							</div>
-
-							<div className="collapse" id="advance-search" aria-expanded="false" role="banner">
-							
-								<div className="row">
-								
-									<div className="col-lg-4 col-md-4 col-sm-12">
-										<div className="form-group">
-											<div className="input-with-icon">
-												<select id="town" className="form-control">
-													<option value="">&nbsp;</option>
-													<option value="1">Any Town</option>
-													<option value="2">Toronto</option>
-													<option value="3">Montreal</option>
-													<option value="4">Alberta</option>
-													<option value="5">Ontario</option>
-													<option value="6">Ottawa</option>
-												</select>
-												<i className="ti-location-pin"></i>
-											</div>
-										</div>
-									</div>
-									
-									<div className="col-lg-4 col-md-4 col-sm-12">
-										<div className="form-group">
-											<div className="input-with-icon">
-												<select id="bedrooms" className="form-control">
-													<option value="">&nbsp;</option>
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-												</select>
-												<i className="fas fa-bed"></i>
-											</div>
-										</div>
-									</div>
-									
-									<div className="col-lg-4 col-md-4 col-sm-12">
-										<div className="form-group">
-											<div className="input-with-icon">
-												<select id="bathrooms" className="form-control">
-													<option value="">&nbsp;</option>
-													<option value="1">1</option>
-													<option value="2">2</option>
-													<option value="3">3</option>
-													<option value="4">4</option>
-													<option value="5">5</option>
-												</select>
-												<i className="fas fa-bath"></i>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-
-								<div className="row">
-								
-									<div className="col-lg-12 col-md-12 col-sm-12 mt-5">
-										<h4 className="text-dark">Amenities & Features</h4>
-										<ul className="no-ul-list third-row">
-											<li>
-												<input id="a-1" className="checkbox-custom" name="a-1" type="checkbox" />
-												<label htmlFor="a-1" className="checkbox-custom-label">Air Condition</label>
-											</li>
-											<li>
-												<input id="a-2" className="checkbox-custom" name="a-2" type="checkbox" />
-												<label htmlFor="a-2" className="checkbox-custom-label">Bedding</label>
-											</li>
-											<li>
-												<input id="a-3" className="checkbox-custom" name="a-3" type="checkbox"/>
-												<label htmlFor="a-3" className="checkbox-custom-label">Heating</label>
-											</li>
-											<li>
-												<input id="a-4" className="checkbox-custom" name="a-4" type="checkbox"/>
-												<label htmlFor="a-4" className="checkbox-custom-label">Internet</label>
-											</li>
-											<li>
-												<input id="a-5" className="checkbox-custom" name="a-5" type="checkbox"/>
-												<label htmlFor="a-5" className="checkbox-custom-label">Microwave</label>
-											</li>
-											<li>
-												<input id="a-6" className="checkbox-custom" name="a-6" type="checkbox"/>
-												<label htmlFor="a-6" className="checkbox-custom-label">Smoking Allow</label>
-											</li>
-											<li>
-												<input id="a-7" className="checkbox-custom" name="a-7" type="checkbox"/>
-												<label htmlFor="a-7" className="checkbox-custom-label">Terrace</label>
-											</li>
-											<li>
-												<input id="a-8" className="checkbox-custom" name="a-8" type="checkbox"/>
-												<label htmlFor="a-8" className="checkbox-custom-label">Balcony</label>
-											</li>
-											<li>
-												<input id="a-9" className="checkbox-custom" name="a-9" type="checkbox"/>
-												<label htmlFor="a-9" className="checkbox-custom-label">Icon</label>
-											</li>
-											<li>
-												<input id="a-10" className="checkbox-custom" name="a-10" type="checkbox"/>
-												<label htmlFor="a-10" className="checkbox-custom-label">Wi-Fi</label>
-											</li>
-											<li>
-												<input id="a-11" className="checkbox-custom" name="a-11" type="checkbox"/>
-												<label htmlFor="a-11" className="checkbox-custom-label">Beach</label>
-											</li>
-											<li>
-												<input id="a-12" className="checkbox-custom" name="a-12" type="checkbox" />
-												<label htmlFor="a-12" className="checkbox-custom-label">Parking</label>
-											</li>
-										</ul>
-									</div>
-									
-								</div>
-								
-							</div>
-							
 						</div>
 					</div>
 				</div>
@@ -318,13 +241,42 @@ export const HomeBanner4 = (props) => {
 
 
 export const SearchBanner = (props) => {
-	const { proptypes, provinces, search_listing, ref_feature, search } = props
+	const { proptypes, provinces, search_listing, ref_feature, search, municipalities } = props
 
-	const [selectedOption, setSelectedOption] = useState(null);
+	const [selectedProv, setSelectedProv] = useState("");
 	const [local, setLocal] = useState("");
 	const [selectedType, setSelectedType] = useState(null);
+	const [filterMun, setFilterMun] = useState([])
+	const [selectMun, setSelectedMun] = useState("");
 	const [collapse, setCollapse] = useState(false);
 	const [refs, setRefs] = useState([]);
+	const [min, setMin] = useState(0);
+	const [max, setMax] = useState(0)
+	const [minFormat, setMinFormat] = useState("0")
+	const [maxFormat, setMaxFormat] = useState("0")
+	const [isSelectProv, setIsSelectProv] = useState(false)
+	const [searchAdd, setSearhAdd] = useState(search.propadd)
+	const [searchMun, setSearhMun] = useState(search.propmun)
+
+	useEffect(() => {
+		if(selectedProv != "" && isSelectProv){
+			var filter = municipalities.filter((val, index) => {
+				let str = new String(val.prov)
+				var rgxp = new RegExp(selectedProv, "i");
+				if(rgxp.test(str.toString())){
+					return val;
+				}
+				return false
+			})
+			setFilterMun(filter)
+			setIsSelectProv(false)
+		}
+		else if(selectedProv == "" && !isSelectProv)
+		{
+			setFilterMun(municipalities)
+		}
+
+	})
 
 	const _setRefs = (e) => {
 		var value = e.target.value
@@ -341,6 +293,36 @@ export const SearchBanner = (props) => {
 
 	}
 
+	const onMax = (e) => {
+		var val = e.target.value
+		
+		if(isNaN(val)){
+			val = val.replace(/\D/g,'')
+		}
+		setMax(Number(val))
+		setMaxFormat(Number(Number(val).toFixed(2)).toLocaleString())
+		
+	}
+
+	const onMin = (e) => {
+		var val = e.target.value
+		if(isNaN(val)){
+			val = val.replace(/\D/g,'')
+		}
+	
+		setMin(Number(val))
+		setMinFormat(Number(Number(val).toFixed(2)).toLocaleString())
+	}
+
+	const onSelectedProv = (val) => {
+		setSelectedProv(val)
+		setIsSelectProv(true)
+	}
+
+	const onSelectedMun = (val) => {
+		setSelectedMun(val);
+	}
+
 	return (
 		<div className="search-header-banner">
 				<div className="container">
@@ -351,35 +333,42 @@ export const SearchBanner = (props) => {
 						<div className="hero-search-content">
 							
 							<div className="row">
-							
-								<div className="col-lg-4 col-md-4 col-sm-12">
-									<div className="form-group">
-										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Neighborhood" onChange={(e) => setLocal(e.target.value)}/>
-											<i className="ti-search"></i>
-										</div>
-									</div>
-								</div>
-								
 								<div className="col-lg-4 col-md-4 col-sm-12">
 									<div className="form-group">
 										<div className="input-with-icon">
 											<Select2 
 												initOptions={provinces} 
-												onChange={(e, val, label) => setSelectedOption(val)}
-												defaultText={search.propadd}
+												onChange={(e, val, label) => onSelectedProv(val)}
+												defaultText={searchAdd}
 												isDisabled={false}
-												placeholder={""}
+												placeholder={"Provinces"}
 											/>
 											<i className="ti-briefcase"></i>
 										</div>
 									</div>
 								</div>
+
+								<div className="col-lg-4 col-md-4 col-sm-12">
+									<div className="form-group">
+										<div className="input-with-icon">
+											<Select2 
+												initOptions={filterMun} 
+												onChange={(e, val, label) => onSelectedMun(val)}
+												defaultText={searchMun}
+												isDisabled={false}
+												placeholder={"Municipality"}
+											/>
+											<i className="ti-search"></i>
+										</div>
+									</div>
+								</div>
+								
+								
 								
 								<div className="col-lg-2 col-md-2 col-sm-6">
 									<div className="form-group">
 										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Minimum" />
+											<input type="text" className="form-control" placeholder="Minimum" value={minFormat} onChange={(e) => onMin(e)} />
 											<i className="ti-money"></i>
 										</div>
 									</div>
@@ -388,7 +377,7 @@ export const SearchBanner = (props) => {
 								<div className="col-lg-2 col-md-2 col-sm-6">
 									<div className="form-group">
 										<div className="input-with-icon">
-											<input type="text" className="form-control" placeholder="Maximum" />
+											<input type="text" className="form-control" placeholder="Maximum" value={maxFormat} onChange={(e) => onMax(e)}/>
 											<i className="ti-money"></i>
 										</div>
 									</div>
@@ -480,19 +469,11 @@ export const SearchBanner = (props) => {
 									<div className="form-group" id="module">
 										<a role="button" className="collapsed"  onClick={(e) => setCollapse(!collapse)} ></a>
 									</div>
-								</div>
+								</div>							
 								
 								<div className="col-lg-4 col-md-4 col-sm-12">
 									<div className="form-group">
-										<div className="form-group">
-											<a href="#" className="btn reset-btn-outline">Search Reset</a>
-										</div>
-									</div>
-								</div>
-								
-								<div className="col-lg-4 col-md-4 col-sm-12">
-									<div className="form-group">
-										<button className="btn search-btn-outline" onClick={(e) => search_listing(selectedType, selectedOption, local, refs)}>Search Result</button>
+										<button className="btn search-btn-outline" onClick={(e) => search_listing( selectedType, selectedProv, local, refs, selectMun, min, max)}>Search Result</button>
 									</div>
 								</div>
 								

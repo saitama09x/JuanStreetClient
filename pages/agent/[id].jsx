@@ -5,19 +5,12 @@ import Header from '../../Components/Header';
 import ProfileListing from '../../Components/ProfileListing';
 import agentserv from '../../services/agent-services';
 import propserv from '../../services/property-services';
+import conf from '../../settings';
 import {AgentSidebar} from '../../Components/Sidebar';
-export async function getStaticPaths() {
+const { AGENT_IMG, BASE_URL } = conf
 
-  const res = await agentserv.getUserProfile()
 
-  const paths = res.map((item) => ({
-    params: { id: item.owner_id.toString() },
-  }))
-
-  return { paths, fallback: true }
-}
-
-export async function getStaticProps({params}){
+export async function getServerSideProps({params}){
     let agent = await agentserv.getSingleUser(params.id);
 
     if(!agent) {
@@ -26,7 +19,7 @@ export async function getStaticProps({params}){
 	    }
 	}
 
-    return { props : { agent : agent }}
+    return { props : { agent : agent, agent_id : params.id }}
 }
 
 
@@ -37,16 +30,16 @@ constructor(props){
 	this.state = {
 		provinces : [],
 		listings : [],
-		is_refresh : false
+		is_refresh : false,
+		municipalities : []
 	}
 	this.onSearhListing = this.onSearhListing.bind(this)
 	this.onLoadedData = this.onLoadedData.bind(this)
 }
 
 onSearhListing(obj){
-  const { agent } = this.props
-  var prov = obj.province;
-  agentserv.searchListing(agent[0].account_id, prov).then((res) => {
+  const { agent, agent_id } = this.props
+  agentserv.searchListing(agent_id, obj).then((res) => {
     this.setState({
       listings : res,
       is_refresh : true
@@ -79,14 +72,33 @@ componentDidMount(){
 		}
 
 	})
+
+	propserv.getMunicipalities().then((res) => {
+			if(res){
+				var munarr = []
+				for(var i in res){
+					var label = res[i]['citymunDesc'];
+					var prov = res[i]['provDesc'];
+					var zipcode = res[i]['zipCode'];
+					munarr.push({
+						label : label,
+						value : label,
+						prov : prov
+					})
+				}
+				this.setState({
+		      		municipalities : munarr	
+		      	})
+			}
+		})
 	
 }
 
 
 render(){
 	
-	const { agent } = this.props
-	const { provinces, is_refresh, listings } = this.state
+	const { agent, agent_id } = this.props
+	const { provinces, is_refresh, listings, municipalities } = this.state
 
 	if(!agent?.length){
 		return <span>Not Found</span>
@@ -98,6 +110,10 @@ render(){
 	var city = (_agent.city != null) ? _agent.city + ", " : ""
 	var zip = (_agent.zipcode != null) ? _agent.zipcode + ", " : ""
 	var phone = (_agent.personalcon1 != null) ? _agent.personalcon1 : ""
+	var photo = BASE_URL + _agent.photo_url;
+	if(_agent.photo_url.indexOf('http') != -1 || _agent.photo_url.indexOf('google') != -1){
+			photo = _agent.photo_url
+	}
 	return (
 		<div>
 			<Head>
@@ -115,7 +131,7 @@ render(){
 									<div className="agency agency-list shadow-0 mt-2 mb-2">
 									
 										<a href="agency-page.html" className="agency-avatar">
-											<img src={_agent.photo_url} alt="" />
+											<img src={photo} alt="" />
 										</a>
 										
 										<div className="agency-content">
@@ -172,14 +188,17 @@ render(){
 								
 							</div>
 							<ProfileListing 
-								user_id={_agent.account_id} 
+								user_id={agent_id} 
 								agent={_agent} 
 								listings={listings}
 								is_refresh={is_refresh}
 								onLoadedData={this.onLoadedData}/>
 						</div>
 							<div className="col-lg-4 col-md-12 col-sm-12">
-								<AgentSidebar provinces={provinces} onSearhListing={(obj) => this.onSearhListing(obj)} />	
+								<AgentSidebar 
+									provinces={provinces} 
+									municipalities={municipalities}
+									onSearhListing={(obj) => this.onSearhListing(obj)} />	
 							</div>
 						</div>
 					</div>

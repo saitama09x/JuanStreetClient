@@ -4,8 +4,9 @@ import Link from 'next/link'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import  currencyFormatter from 'currency-formatter'
 import conf from '../settings';
-const { IMG_URL } = conf
+const { IMG_URL, AGENT_IMG, BASE_URL } = conf
 
 export const FeatureProp = (props) => {
 
@@ -21,6 +22,10 @@ export const FeatureProp = (props) => {
 		 		else if(item.day_ago > 1){
 		 			days_ago = item.day_ago + " days ago"	
 		 		}
+		 		var photo = BASE_URL + item.photo_url;
+				if(item.photo_url.indexOf('http') != -1 || item.photo_url.indexOf('google') != -1){
+						photo = item.photo_url
+				}
 		 		return (
 		 		<div className="single-items" key={"slider-item-" + index}>
 					<div className="property-listing property-2 modern">
@@ -31,11 +36,13 @@ export const FeatureProp = (props) => {
 							</div>
 							<div className="list-img-slide">
 								<div className="click">
-									<div><Link href={"/single-listing/" + item.propid}><a><img src={IMG_URL + item.media} className="img-fluid mx-auto" alt="" /></a></Link></div>
+									
+									<div className='bg-thumb' style={{ backgroundImage : 'url("' + IMG_URL + item.media + '")' }} ><Link href={"/single-listing/" + item.propid}><a><img src={IMG_URL + item.media} className="img-fluid mx-auto" alt="" /></a></Link></div>
+								
 								</div>
 							</div>
 							<div className="listing-price-with-compare">
-								<h4 className="list-pr">$2,580</h4>
+								<h4 className="list-pr">{currencyFormatter.format(item.vendor_requested_price, { locale: 'en-PH' })}</h4>
 								<div className="lpc-right">
 									<a href="compare-property.html" data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i className="ti-control-shuffle"></i></a>
 									<a href="#" data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i className="ti-heart"></i></a>
@@ -47,7 +54,7 @@ export const FeatureProp = (props) => {
 						<div className="listing-detail-wrapper pb-0">
 							<div className="listing-short-detail">
 								<span className="home-type theme-cl">{item.property_type}</span>
-								<h4 className="listing-name"><a href="single-property-1.html">{item.property_name}</a></h4>
+								<h4 className="listing-name"><Link href={"/single-listing/" + item.propid}><a>{item.property_name}</a></Link></h4>
 								<span className="property-locations"><i className="ti-location-pin"></i>{item.line_1_number_building + ', ' + item.line_2_number_street + ', ' + item.line_3_area_locality + ', ' + item.town_city + ', ' + item.zip_postcode}</span>
 							</div>
 						</div>
@@ -64,8 +71,8 @@ export const FeatureProp = (props) => {
 						
 						<div className="modern-property-footer">
 							<div className="property-author">
-								<div className="path-img"><a href="agent-page.html"><img src="https://via.placeholder.com/400x400" className="img-fluid" alt="" /></a></div>
-								<h5><a href="agent-page.html">{item.first_name}</a></h5>
+								<div className="path-img"><Link href={"/agent/" + item.owner_account_id} ><a><img src={photo} className="img-fluid" alt="" /></a></Link></div>
+								<h5><Link href={"/agent/" + item.owner_account_id} ><a>{item.first_name + ' ' + item.last_name}</a></Link></h5>
 							</div>
 							<span className="property-pulish-date">{ days_ago }</span>
 						</div>
@@ -120,7 +127,10 @@ export const SliderBanner = (props) => {
 								{ listings?.media?.length && listings.media.map((item, index) => {
 
 									return (
-										<a  key={'slider-' + index} className="item-slick"><img src={IMG_URL + item.media_filename} alt="Alt" /></a>
+										<a  key={'slider-' + index} className="item-slick preview-img">
+										<div className='bg-thumb' style={{ backgroundImage : 'url("' + IMG_URL + item.media_filename + '")' }}>
+											<img src={IMG_URL + item.media_filename} alt="Alt"/>
+										</div></a>
 									)
 
 								})}
@@ -135,42 +145,43 @@ export const SliderBanner = (props) => {
 							
 								<div className="property-name-info">
 									<h4 className="property-name">{property.property_name}</h4>
-									<p className="property-desc">{property.description}</p>
+									<p className="property-desc" >{address.line_2_number_street + ', ' + address.line_3_area_locality + ', ' + address.town_city + ', ' + address.country_state_province + ', ' + address.zip_postcode}</p>
 								</div>
 								
 								<div className="property-price-info">
-									<h4 className="property-price">Php {details.vendor_requested_price}</h4>
-									<p className="property-sqa">{details.property_size}<sub>SqM</sub></p>
+									<h4 className="property-price">{currencyFormatter.format(details.vendor_requested_price, { locale: 'en-PH' })}</h4>
+									<p className="property-sqa">Floor Area: {details.property_size} SqM</p>
+									<p className="property-sqa">Lot Area: {details.lotarea} SqM</p>
 								</div>
 								
 								<div className="property-statement">
 									<ul>
 										<li>
-											<i className="lni-apartment"></i>
+											<i className="fas fa-building"></i>
 											<div className="ps-trep">
 												<span>Type</span>
 												<h5 className="ps-type">{details.property_type}</h5>
 											</div>
 										</li>
 										<li>
-											<i className="lni-restaurant"></i>
+											<i className="fas fa-drafting-compass"></i>
 											<div className="ps-trep">
-												<span>Build On</span>
-												<h5 className="ps-type">2007</h5>
+												<span>Developer</span>
+												<h5 className="ps-type">{details.developer}</h5>
 											</div>
 										</li>
 										<li>
-											<i className="lni-helmet"></i>
+											<i className="fas fa-couch"></i>
 											<div className="ps-trep">
-												<span>Maintenence Fee</span>
-												<h5 className="ps-type">$710/PA</h5>
+												<span>Furnished</span>
+												<h5 className="ps-type">{details.furnishing}</h5>
 											</div>
 										</li>
 										<li>
-											<i className="lni-leaf"></i>
+											<i className="fas fa-layer-group"></i>
 											<div className="ps-trep">
-												<span>Let</span>
-												<h5 className="ps-type">Own</h5>
+												<span>Floor Level</span>
+												<h5 className="ps-type">{details.floor_level}</h5>
 											</div>
 										</li>
 									</ul>
@@ -187,7 +198,10 @@ export const SliderBanner = (props) => {
 									{ listings?.media?.length && listings.media.map((item, index) => {
 
 										return (
-											<a  key={'sliderNav-' + index} className="item-slick"><img src={IMG_URL + item.media_filename} alt="Alt" width="240px"/></a>											
+											<a  key={'sliderNav-' + index} className="item-slick image-nav">
+											<div className='bg-thumb' style={{ backgroundImage : 'url("' + IMG_URL + item.media_filename + '")' }}>
+												<img src={IMG_URL + item.media_filename} alt="Alt"/>
+											</div></a>											
 										)
 
 									})}
@@ -207,7 +221,7 @@ export const SliderBanner = (props) => {
 								
 								<div className="slide-property-first">
 									<div className="pr-price-into">
-										<h2>Php {details.vendor_requested_price} <i>/ monthly</i> <span className="prt-type rent">{property.listing_type}</span></h2>
+										<h2>{currencyFormatter.format(details.vendor_requested_price, { locale: 'en-PH' })} <span className="prt-type rent">{property.listing_type}</span></h2>
 										<span><i className="lni-map-marker"></i> {address.zip_postcode + ", " + address.line_3_area_locality + ', ' + address.town_city + ', ' + address.country}</span>
 									</div>
 								</div>
@@ -231,15 +245,15 @@ export const SliderBanner = (props) => {
 										</div>
 										
 										<div className="pr-single-info">
-											<a href="JavaScript:Void(0);" data-toggle="tooltip" data-original-title="Get Print"><i className="ti-printer"></i></a>
+											<a  data-toggle="tooltip" data-original-title="Get Print"><i className="ti-printer"></i></a>
 										</div>
 										
 										<div className="pr-single-info">
-											<a href="JavaScript:Void(0);" className="compare-button" data-toggle="tooltip" data-original-title="Compare"><i className="ti-control-shuffle"></i></a>
+											<a className="compare-button" data-toggle="tooltip" data-original-title="Compare"><i className="ti-control-shuffle"></i></a>
 										</div>
 										
 										<div className="pr-single-info">
-											<a href="JavaScript:Void(0);" className="like-bitt add-to-favorite" data-toggle="tooltip" data-original-title="Add To Favorites"><i className="lni-heart-filled"></i></a>
+											<a className="like-bitt add-to-favorite" data-toggle="tooltip" data-original-title="Add To Favorites"><i className="lni-heart-filled"></i></a>
 										</div>
 										
 									</div>
@@ -359,7 +373,11 @@ return (
 	{ images.length && images.map((item, index) => {
 
 		return (
-			<a  key={'slider-' + index} className="item-slick"><img src={IMG_URL + item.media_filename} alt="Alt" /></a>
+			<div className="search-img-slide" key={'slider-' + index}>
+				<div className="bg-thumb" style={{ backgroundImage : 'url("' + IMG_URL + item.media_filename + '")'}}>
+					<a><img src={IMG_URL + item.media_filename} alt="Alt" /></a>
+				</div>
+			</div>
 		)
 
 	})}

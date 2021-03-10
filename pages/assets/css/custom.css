@@ -1,3 +1,57 @@
 .prop-item:hover{
 	cursor:pointer;
 }
+
+.list-author{
+	position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.list-author img{
+	position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.search-img-slide .bg-thumb{
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+}
+
+.search-img-slide .bg-thumb img{
+    visibility: hidden;
+}
+
+.listing-card-info-icon{
+    font-size:23px;
+    padding-left:0px;
+}
+
+.listing-card-info-icon .info-label{
+    font-size: 17px;
+    padding-left: 10px;
+}
+
+.list-fx-features{
+    justify-content:space-evenly;
+}
+
+.list-fx-features .btn-md{
+    padding:10px;
+}
+
+.list-fx-features .req-info{
+    margin-bottom:10px;
+}
+
+.list-fx-features .prop-detail{
+    background-color:#fd533236;
+    color:red;
+    margin-bottom:10px;
+}
